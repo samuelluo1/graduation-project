@@ -1,14 +1,13 @@
-from django.conf.urls import include, url
-from rest_framework.routers import DefaultRouter
-from .views import *
+from django.conf.urls import url, include
 from . import views
+from rest_framework import routers
 
-router = DefaultRouter()
-router.register(r'item', ItemViewSet)
-router.register(r'ingredient', IngredientViewSet)
-router.register(r'have', HaveViewSet)
-router.register(r'misc', MiscellaneousViewSet)
+routers = routers.DefaultRouter()
+routers.register('item', views.ItemView)
+routers.register('ingredient', views.IngredientView)
+routers.register('have', views.HaveView)
+routers.register('misc', views.MiscellaneousView)
+
 urlpatterns = [
-    url(r'^', include(router.urls)),
-
+    url('', include(routers.urls)),
 ]

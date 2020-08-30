@@ -5,11 +5,13 @@ import vuetify from '@/plugins/vuetify'
 import App from './App'
 import router from './router'
 import axios from 'axios'
-import VueAxios from 'vue-axios'
-
-Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
+
+Vue.config.debug = true
+axios.defaults.withCredentials = true
+axios.defaults.baseURL = process.env.API_ROOT
+Vue.prototype.$axios = axios
 
 /* eslint-disable no-new */
 new Vue({

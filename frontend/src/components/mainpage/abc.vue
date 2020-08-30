@@ -12,13 +12,13 @@
       </v-tab>
 
   <v-tab-item id="/misc">
-    <router-view v-if="activeTab === '/misc'" />
+    <router-view v-if="activeTab === '/misc' &&  isRouterAlive" />
   </v-tab-item>
   <v-tab-item id="/item">
-    <router-view v-if="activeTab === '/item'" />
+    <router-view v-if="activeTab === '/item' && isRouterAlive" />
   </v-tab-item>
   <v-tab-item id="/ingredient">
-    <router-view v-if="activeTab === '/ingredient'" />
+    <router-view v-if="activeTab === '/ingredient' && isRouterAlive" />
   </v-tab-item>
 </v-tabs>
 </div>
@@ -26,13 +26,27 @@
 <script>
 export default {
   name: 'abc',
+  provide () {
+    return {
+      reload: this.reload
+    }
+  },
   data: () => ({
     activeTab: [
       { id: 1, route: '/misc' },
       { id: 2, route: '/item' },
       { id: 3, route: '/ingredient' }
-    ]
-  })
+    ],
+    isRouterAlive: true
+  }),
+  methods: {
+    reload () {
+      this.isRouterAlive = false
+      this.$nextTick(function () {
+        this.isRouterAlive = true
+      })
+    }
+  }
 }
 </script>
 <style scoped>

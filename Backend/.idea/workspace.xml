@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c109d4a4-1a93-4ee5-9f1a-339924128a11" name="Default Changelist" comment="" />
+    <list default="true" id="c109d4a4-1a93-4ee5-9f1a-339924128a11" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/admin.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/apps.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/forms.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/serializers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/accounting/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/venv/Scripts/activate.bat" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Scripts/activate.bat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/config/dev.env.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/config/dev.env.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/config/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/config/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/config/prod.env.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/config/prod.env.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/chart/bar.vue" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/main.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/mainpage/abc.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/mainpage/abc.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/mainpage/ingredient.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/mainpage/ingredient.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/mainpage/item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/mainpage/item.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/mainpage/misc.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/mainpage/misc.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/config/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/plugins/vuetify.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/plugins/vuetify.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/router/index.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -36,7 +65,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
   <component name="ProjectId" id="1Zf9wdMHg0BpX0TqYoKgUAfBk3R" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -45,11 +78,15 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/venv/Scripts" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\viridis\Desktop\LILICOCO\Backend\venv\Scripts" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\viridis\Desktop\LILICOCO" />
       <recent name="C:\Users\viridis\Desktop\LILICOCO\Backend" />
@@ -67,9 +104,9 @@
         <env name="PYTHONUNBUFFERED" value="1" />
         <env name="DJANGO_SETTINGS_MODULE" value="Backend.settings" />
       </envs>
-      <option name="SDK_HOME" value="C:\Users\viridis\Desktop\LILICOCO\Backend\venv\Scripts\python.exe" />
+      <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="" />
-      <option name="IS_MODULE_SDK" value="false" />
+      <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="launchJavascriptDebuger" value="false" />
@@ -106,7 +143,11 @@
       <workItem from="1593488461213" duration="15661000" />
       <workItem from="1595315349221" duration="53605000" />
       <workItem from="1596905355840" duration="260000" />
-      <workItem from="1596908487578" duration="5773000" />
+      <workItem from="1596908487578" duration="11498000" />
+      <workItem from="1597139281178" duration="28272000" />
+      <workItem from="1597981572137" duration="628000" />
+      <workItem from="1598441146366" duration="2928000" />
+      <workItem from="1598792448363" duration="614000" />
     </task>
     <servers />
   </component>
@@ -114,10 +155,14 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1596913140133">
+    <state x="352" y="18" key="#Backend" timestamp="1597410630198">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1596913140132" />
+    <state x="352" y="18" key="#Backend/0.0.1280.680@0.0.1280.680" timestamp="1597410630198" />
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1597742506860">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="96" y="0" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.680@0.0.1280.680" timestamp="1597742506860" />
     <state x="384" y="143" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1596913174704">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
@@ -126,30 +171,34 @@
       <screen x="0" y="0" width="1280" height="680" />
     </state>
     <state x="371" y="87" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1280.680@0.0.1280.680" timestamp="1596668095706" />
-    <state x="421" y="82" key="FileChooserDialogImpl" timestamp="1596905935043">
+    <state x="376" y="101" key="EnvironmentVariablesDialog" timestamp="1597410433650">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="421" y="82" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1596905935043" />
-    <state width="1237" height="179" key="GridCell.Tab.0.bottom" timestamp="1596913540307">
+    <state x="376" y="101" key="EnvironmentVariablesDialog/0.0.1280.680@0.0.1280.680" timestamp="1597410433650" />
+    <state x="435" y="94" key="FileChooserDialogImpl" timestamp="1597406902222">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="179" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1596913540307" />
-    <state width="1237" height="179" key="GridCell.Tab.0.center" timestamp="1596913540307">
+    <state x="435" y="94" key="FileChooserDialogImpl/0.0.1280.680@0.0.1280.680" timestamp="1597406902222" />
+    <state width="1237" height="175" key="GridCell.Tab.0.bottom" timestamp="1597837399233">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="179" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1596913540307" />
-    <state width="1237" height="179" key="GridCell.Tab.0.left" timestamp="1596913540306">
+    <state width="1237" height="175" key="GridCell.Tab.0.bottom/0.0.1280.680@0.0.1280.680" timestamp="1597837399233" />
+    <state width="1237" height="175" key="GridCell.Tab.0.center" timestamp="1597837399233">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="179" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1596913540306" />
-    <state width="1237" height="179" key="GridCell.Tab.0.right" timestamp="1596913540307">
+    <state width="1237" height="175" key="GridCell.Tab.0.center/0.0.1280.680@0.0.1280.680" timestamp="1597837399233" />
+    <state width="1237" height="175" key="GridCell.Tab.0.left" timestamp="1597837399233">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state width="1237" height="179" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1596913540307" />
-    <state x="142" y="0" key="SettingsEditor" timestamp="1596913450418">
+    <state width="1237" height="175" key="GridCell.Tab.0.left/0.0.1280.680@0.0.1280.680" timestamp="1597837399233" />
+    <state width="1237" height="175" key="GridCell.Tab.0.right" timestamp="1597837399233">
       <screen x="0" y="0" width="1280" height="680" />
     </state>
-    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1596913450418" />
+    <state width="1237" height="175" key="GridCell.Tab.0.right/0.0.1280.680@0.0.1280.680" timestamp="1597837399233" />
+    <state x="142" y="0" key="SettingsEditor" timestamp="1597742546490">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.680@0.0.1280.680" timestamp="1597742546490" />
     <state width="647" height="347" key="XDebugger.FullValuePopup" timestamp="1596910921594">
       <screen x="0" y="0" width="1280" height="680" />
     </state>

@@ -1,39 +1,30 @@
-from django.shortcuts import render
-from django.views.generic.base import View
-from django.http import HttpResponse
-from django.shortcuts import get_object_or_404
-import json
-import datetime
-
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import serializers, permissions, mixins, viewsets
-
-from .serializers import *
-from .models import *
+from rest_framework import viewsets
+from .serializers import ItemSerializer, IngredientSerializer, HaveSerializer, MiscellaneousSerializer
+from .models import Item, Ingredient, Have, Miscellaneous
 
 
-# Create your views here.
-class ItemViewSet(viewsets.ModelViewSet):
+class ItemView(viewsets.ModelViewSet):
 
     queryset = Item.objects.all()
     serializer_class = ItemSerializer
 
 
-class IngredientViewSet(viewsets.ModelViewSet):
+class IngredientView(viewsets.ModelViewSet):
 
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
 
 
-class HaveViewSet(viewsets.ModelViewSet):
+class HaveView(viewsets.ModelViewSet):
 
     queryset = Have.objects.all()
     serializer_class = HaveSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ("ingredient", "item",)
 
 
-class MiscellaneousViewSet(viewsets.ModelViewSet):
+class MiscellaneousView(viewsets.ModelViewSet):
 
     queryset = Miscellaneous.objects.all()
     serializer_class = MiscellaneousSerializer

@@ -1,44 +1,49 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import main from '@/components/main'
+
+const homepage = r => require.ensure([], () => r(require('@/components/main')), 'main"')
+const abc = r => require.ensure([], () => r(require('@/components/mainpage/abc')), 'mainpage')
+const misc = r => require.ensure([], () => r(require('@/components/mainpage/misc')), 'mainpage')
+const item = r => require.ensure([], () => r(require('@/components/mainpage/item')), 'mainpage')
+const ingredient = r => require.ensure([], () => r(require('@/components/mainpage/ingredient')), 'mainpage')
+const coordinate = r => require.ensure([], () => r(require('@/components/chart/coordinate')), 'chart')
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: main,
+      name: 'homepage',
+      component: homepage
+    },
+    {
+      path: '/misc',
+      name: 'abc',
+      component: abc,
       children: [
         {
-          path: '/misc',
-          name: 'abc',
-          component: () => import('@/components/mainpage/abc.vue'),
-          children: [
-            {
-              path: '',
-              name: 'misc',
-              component: () => import('@/components/mainpage/misc.vue')
-            },
-            {
-              path: '/item',
-              name: 'item',
-              component: () => import('@/components/mainpage/item.vue')
-            },
-            {
-              path: '/ingredient',
-              name: 'ingredient',
-              component: () => import('@/components/mainpage/ingredient.vue')
-            }
-          ]
+          path: '',
+          name: 'misc',
+          component: misc
         },
         {
-          path: '/result',
-          name: 'result',
-          component: () => import('@/components/chart/bar.vue')
+          path: '/item',
+          name: 'item',
+          component: item
+        },
+        {
+          path: '/ingredient',
+          name: 'ingredient',
+          component: ingredient
         }
       ]
+    },
+    {
+      path: '/result',
+      name: 'result',
+      component: coordinate
     }
   ]
 })
