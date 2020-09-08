@@ -1,6 +1,45 @@
 <template>
   <center>
-    <div id="cmain" :style="{width: '1000px', height: '1000px'}" ></div>
+    <v-row align="baseline" justify="center">
+    <v-col md="2">
+      <v-menu
+        ref="menu"
+        v-model="menu"
+        :close-on-content-click="false"
+        :return-value.sync="date"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            color='light-green'
+            v-model="date"
+            placeholder=" 請選擇年月份"
+            readonly
+            prepend-icon="event"
+            v-bind="attrs"
+            v-on="on"
+            hide-details
+            class="ma-0 pa-0"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          color='light-green'
+          v-model="date"
+          type="month"
+          no-title
+          scrollable
+        >
+          <v-btn text color="light-green" @click="menu = false">Cancel</v-btn>
+          <v-btn text color="light-green" @click="$refs.menu.save(date); $router.push({name: 'coordinate', query:{date: date}}); reload()">OK</v-btn>
+        </v-date-picker>
+      </v-menu>
+    </v-col>
+    </v-row>
+    <div id="cmain" :style="{width: '1000px', height: '1000px'}" >
+    </div>
   </center>
 </template>
 
@@ -8,7 +47,10 @@
 import echarts from 'echarts'
 
 export default {
-  data: () => ({}),
+  data: () => ({
+    date: new Date().toISOString().substr(0, 7),
+    menu: false
+  }),
   methods: {
     drawDots () {
       var myChart = echarts.init(document.getElementById('cmain'))
@@ -17,9 +59,9 @@ export default {
       })
       this.$axios.all([this.$axios.get('/item/'), this.$axios.get('/misc/'), this.$axios.get('/ingredient/')])
         .then(this.$axios.spread((itemResp, miscResp, ingrResp) => {
-          var itemData = itemResp.data
-          var miscData = miscResp.data
-          var ingrData = ingrResp.data
+          var itemData = itemResp.data.filter(a => a.item_time === this.date)
+          var miscData = miscResp.data.filter(a => a.miscellaneous_time === this.date)
+          var ingrData = ingrResp.data.filter(a => a.ingredient_time === this.date)
           var container = []
           var costData = []
           var turnoverCount = 0
@@ -59,12 +101,8 @@ export default {
             timePropor = itemData[i].sales / timePropor
             for (var l = 0; l < miscData.length; l++) {
               serviceCount = serviceCount + miscData[l].miscellaneous_price * miscData[l].service * 0.01
-            }
-            for (var m = 0; m < miscData.length; m++) {
-              serviceCount = serviceCount + miscData[m].miscellaneous_price * miscData[m].cooking * 0.01
-            }
-            for (var n = 0; n < miscData.length; n++) {
-              serviceCount = serviceCount + miscData[n].miscellaneous_price * miscData[n].sorting * 0.01
+              serviceCount = serviceCount + miscData[l].miscellaneous_price * miscData[l].cooking * 0.01
+              serviceCount = serviceCount + miscData[l].miscellaneous_price * miscData[l].sorting * 0.01
             }
             operatingCost = (serviceCount + sortingCount) * timePropor + cookingCount * timePropor
             costData.push(materialCost + operatingCost)
@@ -76,10 +114,10 @@ export default {
               abcMin = sales - materialCost - operatingCost
             }
           };
-          for (var o = 0; o < itemData.length; o++) {
-            container.push([(itemData[o].item_price * itemData[o].sales - turnoverCount / itemData.length) / (turnoverMax - turnoverMin),
-              ((itemData[o].item_price * itemData[o].sales - costData[o]) - (turnoverCount - costCount) / itemData.length) / (abcMax - abcMin),
-              itemData[o].item_name])
+          for (var m = 0; m < itemData.length; m++) {
+            container.push([(itemData[m].item_price * itemData[m].sales - turnoverCount / itemData.length) / (turnoverMax - turnoverMin),
+              ((itemData[m].item_price * itemData[m].sales - costData[m]) - (turnoverCount - costCount) / itemData.length) / (abcMax - abcMin),
+              itemData[m].item_name])
           };
           myChart.hideLoading()
           myChart.setOption({
@@ -135,6 +173,11 @@ export default {
             }]
           })
         }))
+    }
+  },
+  created (){
+    if (this.$route.query.date !== undefined) {
+      this.date = this.$route.query.date
     }
   },
   mounted () {

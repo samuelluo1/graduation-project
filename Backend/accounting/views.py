@@ -28,5 +28,3 @@ class MiscellaneousView(viewsets.ModelViewSet):
 
     queryset = Miscellaneous.objects.all()
     serializer_class = MiscellaneousSerializer
-
-

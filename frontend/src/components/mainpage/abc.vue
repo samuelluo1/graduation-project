@@ -10,18 +10,17 @@
       <v-tab to="/ingredient">
         原物料
       </v-tab>
-
-  <v-tab-item id="/misc">
-    <router-view v-if="activeTab === '/misc' &&  isRouterAlive" />
-  </v-tab-item>
-  <v-tab-item id="/item">
-    <router-view v-if="activeTab === '/item' && isRouterAlive" />
-  </v-tab-item>
-  <v-tab-item id="/ingredient">
-    <router-view v-if="activeTab === '/ingredient' && isRouterAlive" />
-  </v-tab-item>
-</v-tabs>
-</div>
+      <v-tab-item id="/misc">
+        <router-view v-if="activeTab === '/misc' &&  isRouterAlive" />
+      </v-tab-item>
+      <v-tab-item id="/item">
+        <router-view v-if="activeTab === '/item' && isRouterAlive" />
+      </v-tab-item>
+      <v-tab-item id="/ingredient">
+        <router-view v-if="activeTab === '/ingredient' && isRouterAlive" />
+      </v-tab-item>
+    </v-tabs>
+  </div>
 </template>
 <script>
 export default {

@@ -1,5 +1,68 @@
 <template>
   <div>
+    <v-row align="baseline" justify="space-around">
+    <v-col md="2">
+      <v-menu
+        ref="menu"
+        v-model="menu"
+        :close-on-content-click="false"
+        :return-value.sync="date"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            color='light-green'
+            v-model="date"
+            placeholder=" 請選擇年月份"
+            readonly
+            prepend-icon="event"
+            v-bind="attrs"
+            v-on="on"
+            hide-details
+            class="ma-0 pa-0"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          color='light-green'
+          v-model="date"
+          type="month"
+          no-title
+          scrollable
+        >
+          <v-btn text color="light-green" @click="menu = false">Cancel</v-btn>
+          <v-btn text color="light-green" @click="$refs.menu.save(date); $router.push({name: 'ingredient', query:{date: date}}); reload()">OK</v-btn>
+        </v-date-picker>
+      </v-menu>
+    </v-col>
+    <v-col md="2" >
+    <v-menu
+        offset-y
+      >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="light-green"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          複製
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in monthData"
+          :key="index"
+          @click="addCopy(item)"
+        >
+          <v-list-item-title>{{ item }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    </v-col>
+    </v-row>
     <v-card>
       <v-table
         is-horizontal-resize
@@ -42,8 +105,11 @@ export default {
     ],
     dataList: [],
     itemIdList: [],
+    monthData: [],
     itemLength: '',
-    isRouterAlive: true
+    isRouterAlive: true,
+    date: new Date().toISOString().substr(0, 7),
+    menu: false
   }),
   methods: {
     customCompFunc (params) {
@@ -53,7 +119,7 @@ export default {
     },
     add () {
       this.$axios
-        .post('/ingredient/', { ingredient_name: '新原料' })
+        .post('/ingredient/', { ingredient_name: '新原料', ingredient_time: this.date })
         .then(res => {
           for (var i = 0; i < this.itemIdList.length; i++) {
             this.$axios.post('/have/', { item: this.itemIdList[i], ingredient: res.data.id })
@@ -75,7 +141,8 @@ export default {
         this.$axios
           .put('/ingredient/' + rowData.id + '/', {
             ingredient_name: this.dataList[rowIndex]['ingredient_name'],
-            ingredient_price: this.dataList[rowIndex]['ingredient_price']
+            ingredient_price: this.dataList[rowIndex]['ingredient_price'],
+            ingredient_time: this.date
           })
       } else {
         this.$emit('on-custom-comp', params)
@@ -84,24 +151,53 @@ export default {
             this.$axios.put('/have/' + res.data[0].id + '/', { proportion: newValue })
           })
       }
+    },
+    addCopy (month) {
+      this.$axios.get('/ingredient/').then(res_a => {
+        var container = res_a.data.filter(a => a.ingredient_time === month)
+        var $this = this
+        function postHave (i, j) {
+          $this.$axios.post('/have/', { item: $this.itemIdList[i], ingredient: j.data.id })
+        }
+        for (var i = 0; i < container.length; i++) {
+          container[i].ingredient_time = this.date
+          this.$axios
+            .post('/ingredient/', container[i])
+            .then(res_b => {
+              for (var j = 0; j < this.itemIdList.length; j++) {
+                postHave(j, res_b)
+              }
+            })
+        }
+        this.reload()
+      })
     }
   },
   created () {
     this.isLoading = true
+    if (this.$route.query.date !== undefined) {
+      this.date = this.$route.query.date
+    }
     this.$axios.all([this.$axios.get('/ingredient/'), this.$axios.get('/item/'), this.$axios.get('/have/')])
       .then(this.$axios.spread((ingrResp, itemResp, haveResp) => {
-        this.dataList = ingrResp.data
-        this.itemLength = itemResp.data.length
+        this.dataList = ingrResp.data.filter(a => a.ingredient_time === this.date)
+        var itemData = itemResp.data.filter(a => a.item_time === this.date)
+        this.itemLength = itemData.length
         for (var i = 0; i < this.itemLength; i++) {
-          var itemId = itemResp.data[i].id
-          var name = itemResp.data[i].item_name
+          var itemId = itemData[i].id
+          var name = itemData[i].item_name
           this.headers.push({ title: name + '所占比例', field: 'item_' + itemId, width: 120, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true })
           this.itemIdList.push(itemId)
           for (var j = 0; j < this.dataList.length; j++) {
-            this.$set(this.dataList[j], 'item_' + itemId, haveResp.data.filter(a => a.item === itemId).filter(b => b.ingredient === ingrResp.data[j].id)[0].proportion)
+            this.$set(this.dataList[j], 'item_' + itemId, haveResp.data.filter(a => a.item === itemId).filter(b => b.ingredient === this.dataList[j].id)[0].proportion)
           }
         }
         this.headers.push({ title: '', field: 'actions', width: 100, titleAlign: 'center', columnAlign: 'center', isEdit: false, componentName: 'table-operation', isResize: true })
+        for (var k = 0; k < ingrResp.data.length; k++) {
+          if (!this.monthData.includes(ingrResp.data[k].ingredient_time) && ingrResp.data[k].ingredient_time !== this.date && this.monthData.length < 10) {
+            this.monthData.push(ingrResp.data[k].ingredient_time)
+          }
+        }
         this.isLoading = false
       }))
   }

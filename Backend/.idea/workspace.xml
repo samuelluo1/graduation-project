@@ -2,33 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c109d4a4-1a93-4ee5-9f1a-339924128a11" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/asgi.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/settings.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/admin.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/apps.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/forms.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/accounting/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/serializers.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/serializers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/accounting/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/accounting/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/accounting/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/venv/Scripts/activate.bat" beforeDir="false" afterPath="$PROJECT_DIR$/venv/Scripts/activate.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/config/dev.env.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/config/dev.env.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/config/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/config/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/config/prod.env.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/config/prod.env.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/App.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/App.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/components/chart/bar.vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/main.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/main.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/mainpage/abc.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/mainpage/abc.vue" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/components/mainpage/header-bar.vue" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/mainpage/ingredient.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/mainpage/ingredient.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/mainpage/item.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/mainpage/item.vue" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/components/mainpage/misc.vue" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/components/mainpage/misc.vue" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/config/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/main.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/plugins/vuetify.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/plugins/vuetify.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/router/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -76,6 +61,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -84,15 +70,15 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\viridis\Desktop\LILICOCO\Backend\venv\Scripts" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\viridis\Desktop\LILICOCO\Backend\inventory" />
       <recent name="C:\Users\viridis\Desktop\LILICOCO" />
       <recent name="C:\Users\viridis\Desktop\LILICOCO\Backend" />
       <recent name="C:\Users\viridis\PycharmProjects\project\accounting" />
       <recent name="C:\Users\viridis\PycharmProjects\project\templates\upload" />
-      <recent name="C:\Users\viridis\PycharmProjects\project\templates\create" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\viridis\Desktop\LILICOCO\Backend\venv\Scripts" />
     </key>
   </component>
   <component name="RunManager">
@@ -148,6 +134,12 @@
       <workItem from="1597981572137" duration="628000" />
       <workItem from="1598441146366" duration="2928000" />
       <workItem from="1598792448363" duration="1257000" />
+      <workItem from="1598798157437" duration="1052000" />
+      <workItem from="1598934468158" duration="2093000" />
+      <workItem from="1599048804319" duration="4105000" />
+      <workItem from="1599118691008" duration="1972000" />
+      <workItem from="1599217568368" duration="9752000" />
+      <workItem from="1599547192874" duration="3551000" />
     </task>
     <servers />
   </component>

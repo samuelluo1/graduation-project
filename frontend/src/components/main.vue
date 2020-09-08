@@ -5,7 +5,7 @@
 <script>
 
 export default {
-  name: 'main',
+  name: 'homepage',
   components: {},
   data: () => ({
   })

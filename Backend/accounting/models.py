@@ -7,6 +7,7 @@ class Item(models.Model):
     item_price = models.FloatField(default=0)
     time = models.FloatField(default=0)
     sales = models.FloatField(default=0)
+    item_time = models.CharField(max_length=7)
 
     objects = models.Manager()
 
@@ -17,6 +18,7 @@ class Item(models.Model):
 class Ingredient(models.Model):
     ingredient_name = models.CharField(max_length=30)
     ingredient_price = models.FloatField(default=0)
+    ingredient_time = models.CharField(max_length=7)
 
     objects = models.Manager()
 
@@ -41,6 +43,7 @@ class Miscellaneous(models.Model):
     service = models.FloatField(default=0)
     cooking = models.FloatField(default=0)
     sorting = models.FloatField(default=0)
+    miscellaneous_time = models.CharField(max_length=7)
 
     objects = models.Manager()
 
