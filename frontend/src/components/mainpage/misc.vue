@@ -120,7 +120,7 @@ export default {
       }
     },
     add () {
-      this.$axios.post('/misc/', { miscellaneous_name: '新雜項', miscellaneous_time: this.date })
+      this.$axios.post('/post_misc/', { miscellaneous_name: '新雜項', miscellaneous_time: this.date })
       this.reload()
     },
     cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
@@ -135,7 +135,7 @@ export default {
       } else {
         this.$emit('on-custom-comp', params)
         this.$axios
-          .put('/misc/' + rowData.id + '/', {
+          .put('/put_misc/' + rowData.id + '/', {
             miscellaneous_name: this.dataList[rowIndex]['miscellaneous_name'],
             miscellaneous_price: this.dataList[rowIndex]['miscellaneous_price'],
             service: this.dataList[rowIndex]['service'],
@@ -146,11 +146,11 @@ export default {
       }
     },
     addCopy (month) {
-      this.$axios.get('misc').then(res => {
+      this.$axios.get('/get_misc/').then(res => {
         var container = res.data.filter(a => a.miscellaneous_time === month)
         for (var i = 0; i < container.length; i++) {
           container[i].miscellaneous_time = this.date
-          this.$axios.post('/misc/', container[i])
+          this.$axios.post('/post_misc/', container[i])
         }
         this.reload()
       })
@@ -161,7 +161,7 @@ export default {
     if (this.$route.query.date !== undefined) {
       this.date = this.$route.query.date
     }
-    this.$axios.get('/misc/').then(res => {
+    this.$axios.get('/get_misc/').then(res => {
       this.dataList = res.data.filter(a => a.miscellaneous_time === this.date)
       for (var i = 0; i < res.data.length; i++) {
         if (!this.monthData.includes(res.data[i].miscellaneous_time) && res.data[i].miscellaneous_time !== this.date && this.monthData.length < 10) {

@@ -1,4 +1,4 @@
-#!C:\Users\viridis\PycharmProjects\project\venv\Scripts\python.exe
+#!C:\Users\viridis\Desktop\LILICOCO\Backend\venv\Scripts\python.exe
 # EASY-INSTALL-ENTRY-SCRIPT: 'future==0.18.2','console_scripts','futurize'
 __requires__ = 'future==0.18.2'
 import re

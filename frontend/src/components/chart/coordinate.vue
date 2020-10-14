@@ -57,7 +57,7 @@ export default {
       myChart.showLoading({
         color: '#8BC34A'
       })
-      this.$axios.all([this.$axios.get('/item/'), this.$axios.get('/misc/'), this.$axios.get('/ingredient/')])
+      this.$axios.all([this.$axios.get('/get_item/'), this.$axios.get('/get_misc/'), this.$axios.get('/get_ingredient/')])
         .then(this.$axios.spread((itemResp, miscResp, ingrResp) => {
           var itemData = itemResp.data.filter(a => a.item_time === this.date)
           var miscData = miscResp.data.filter(a => a.miscellaneous_time === this.date)
@@ -72,7 +72,7 @@ export default {
           var abcMin = Infinity
           var $this = this
           function getMaterialCost (i, j) {
-            $this.$axios.get('/have/?ingredient=' + ingrData[j].id + '&item=' + itemData[i].id)
+            $this.$axios.get('/get_have/?ingredient=' + ingrData[j].id + '&item=' + itemData[i].id)
               .then(res => {
                 materialCost = materialCost + res.data[0].proportion * 0.01 * ingrData[j].ingredient_price
               })
@@ -175,7 +175,7 @@ export default {
         }))
     }
   },
-  created (){
+  created () {
     if (this.$route.query.date !== undefined) {
       this.date = this.$route.query.date
     }

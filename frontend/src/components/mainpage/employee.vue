@@ -85,7 +85,7 @@ export default {
       }
     },
     add () {
-      this.$axios.post('/employee/', { employee_name: '新員工' })
+      this.$axios.post('/post_employee/', { employee_name: '新員工' })
       this.reload()
     },
     cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
@@ -100,7 +100,7 @@ export default {
       } else {
         this.$emit('on-custom-comp', params)
         this.$axios
-          .put('/employee/' + rowData.id + '/', {
+          .put('/put_employee/' + rowData.id + '/', {
             employee_id: this.dataList[rowIndex]['emplyee_id'],
             employee_name: this.dataList[rowIndex]['employee_name'],
             nine_f: this.dataList[rowIndex]['nine_f'],
@@ -142,7 +142,7 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.$axios.get('/employee/').then(res => {
+    this.$axios.get('/get_employee/').then(res => {
       this.dataList = res.data
       for (var i = 0; i < this.dataList.length; i++) {
         var temp = 0

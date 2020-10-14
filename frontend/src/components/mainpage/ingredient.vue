@@ -119,10 +119,10 @@ export default {
     },
     add () {
       this.$axios
-        .post('/ingredient/', { ingredient_name: '新原料', ingredient_time: this.date })
+        .post('/post_ingredient/', { ingredient_name: '新原料', ingredient_time: this.date })
         .then(res => {
           for (var i = 0; i < this.itemIdList.length; i++) {
-            this.$axios.post('/have/', { item: this.itemIdList[i], ingredient: res.data.id })
+            this.$axios.post('/post_have/', { item: this.itemIdList[i], ingredient: res.data.id })
           }
           this.reload()
         })
@@ -139,30 +139,30 @@ export default {
       } else if (field === 'ingredient_name' | field === 'ingredient_price') {
         this.dataList[rowIndex][field] = newValue
         this.$axios
-          .put('/ingredient/' + rowData.id + '/', {
+          .put('/put_ingredient/' + rowData.id + '/', {
             ingredient_name: this.dataList[rowIndex]['ingredient_name'],
             ingredient_price: this.dataList[rowIndex]['ingredient_price'],
             ingredient_time: this.date
           })
       } else {
         this.$emit('on-custom-comp', params)
-        this.$axios.get('/have/?ingredient=' + rowData.id + '&item=' + field.substr(5))
+        this.$axios.get('/get_have/?ingredient=' + rowData.id + '&item=' + field.substr(5))
           .then(res => {
-            this.$axios.put('/have/' + res.data[0].id + '/', { proportion: newValue })
+            this.$axios.put('/put_have/' + res.data[0].id + '/', { proportion: newValue, ingredient: rowData.id, item: field.substr(5) })
           })
       }
     },
     addCopy (month) {
-      this.$axios.get('/ingredient/').then(res_a => {
+      this.$axios.get('/get_ingredient/').then(res_a => {
         var container = res_a.data.filter(a => a.ingredient_time === month)
         var $this = this
         function postHave (i, j) {
-          $this.$axios.post('/have/', { item: $this.itemIdList[i], ingredient: j.data.id })
+          $this.$axios.post('/post_have/', { item: $this.itemIdList[i], ingredient: j.data.id })
         }
         for (var i = 0; i < container.length; i++) {
           container[i].ingredient_time = this.date
           this.$axios
-            .post('/ingredient/', container[i])
+            .post('/post_ingredient/', container[i])
             .then(res_b => {
               for (var j = 0; j < this.itemIdList.length; j++) {
                 postHave(j, res_b)
@@ -178,7 +178,7 @@ export default {
     if (this.$route.query.date !== undefined) {
       this.date = this.$route.query.date
     }
-    this.$axios.all([this.$axios.get('/ingredient/'), this.$axios.get('/item/'), this.$axios.get('/have/')])
+    this.$axios.all([this.$axios.get('/get_ingredient/'), this.$axios.get('/get_item/'), this.$axios.get('/get_have/')])
       .then(this.$axios.spread((ingrResp, itemResp, haveResp) => {
         this.dataList = ingrResp.data.filter(a => a.ingredient_time === this.date)
         var itemData = itemResp.data.filter(a => a.item_time === this.date)

@@ -54,7 +54,7 @@ export default {
       }
     },
     add () {
-      this.$axios.post('/inventory/', { inventory_name: '新存貨項目' })
+      this.$axios.post('/post_inventory/', { inventory_name: '新存貨項目' })
       this.reload()
     },
     cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
@@ -69,7 +69,7 @@ export default {
       } else {
         this.$emit('on-custom-comp', params)
         this.$axios
-          .put('/inventory/' + rowData.id + '/', {
+          .put('/put_inventory/' + rowData.id + '/', {
             inventory_name: this.dataList[rowIndex]['inventory_name'],
             inventory_quantity: this.dataList[rowIndex]['inventory_quantity'],
             inventory_unitPrice: this.dataList[rowIndex]['inventory_unitPrice']
@@ -79,7 +79,7 @@ export default {
   },
   created () {
     this.isLoading = true
-    this.$axios.get('/inventory/').then(res => {
+    this.$axios.get('/get_inventory/').then(res => {
       this.dataList = res.data
       for (var i = 0; i < this.dataList.length; i++) {
         this.$set(this.dataList[i], 'inventory_price', this.dataList[i]['inventory_quantity'] * this.dataList[i]['inventory_unitPrice'])

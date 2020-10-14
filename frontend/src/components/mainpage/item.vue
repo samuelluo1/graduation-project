@@ -111,7 +111,8 @@ export default {
     monthData: [],
     isRouterAlive: true,
     date: new Date().toISOString().substr(0, 7),
-    menu: false
+    menu: false,
+    id: this.$userId
   }),
   methods: {
     customCompFunc (params) {
@@ -121,11 +122,11 @@ export default {
     },
     add () {
       this.$axios
-        .post('/item/', { item_name: '新品項', item_time: this.date })
+        .post('/post_item/', { item_name: '新品項', item_time: this.date})
         .then(itemRes => {
-          this.$axios.get('/ingredient/').then(ingredientRes => {
+          this.$axios.get('/get_ingredient/').then(ingredientRes => {
             for (var i = 0; i < ingredientRes.data.length; i++) {
-              this.$axios.post('/have/', { item: itemRes.data.id, ingredient: ingredientRes.data[i].id })
+              this.$axios.post('/post_have/', { item: itemRes.data.id, ingredient: ingredientRes.data[i].id })
             }
             this.reload()
           })
@@ -143,7 +144,7 @@ export default {
       } else {
         this.$emit('on-custom-comp', params)
         this.$axios
-          .put('/item/' + rowData.id + '/', {
+          .put('/put_item/' + rowData.id + '/', {
             item_name: this.dataList[rowIndex]['item_name'],
             item_price: this.dataList[rowIndex]['item_price'],
             time: this.dataList[rowIndex]['time'],
@@ -153,11 +154,11 @@ export default {
       }
     },
     addCopy (month) {
-      this.$axios.get('item').then(res => {
+      this.$axios.get('get_item').then(res => {
         var container = res.data.filter(a => a.item_time === month)
         for (var i = 0; i < container.length; i++) {
           container[i].item_time = this.date
-          this.$axios.post('/item/', container[i])
+          this.$axios.post('/post_item/', container[i])
         }
         this.reload()
       })
@@ -168,7 +169,8 @@ export default {
     if (this.$route.query.date !== undefined) {
       this.date = this.$route.query.date
     }
-    this.$axios.get('/item/').then(res => {
+    this.$axios.get('/get_item/').then(res => {
+      console.log(res.data)
       this.dataList = res.data.filter(a => a.item_time === this.date)
       for (var i = 0; i < res.data.length; i++) {
         if (!this.monthData.includes(res.data[i].item_time) && res.data[i].item_time !== this.date && this.monthData.length < 10) {
@@ -191,7 +193,7 @@ Vue.component('table-operation', {
     deleteRow (rowData, index) {
       let params = {type: 'delete', index: this.index}
       if (confirm('確定要刪除此品項?') && this.$emit('on-custom-comp', params)) {
-        this.$axios.delete('/item/' + rowData.id + '/', { data: { username: 'root', password: 'ilovelibrary' } })
+        this.$axios.delete('/item/' + rowData.id + '/', { data: { username: 'root', password: 'ilovelibrary'} })
       }
     }
   }

@@ -88,7 +88,24 @@
         clipped-left
       >
         <v-app-bar-nav-icon @click.stop="drawer = !drawer" class="light-green--text"></v-app-bar-nav-icon>
-        <span class="display-1 light-green--text">Lilicoco</span>
+        <img :src="imgUrl" height="30px" />
+        <v-spacer></v-spacer>
+        <v-btn
+          color="light-green"
+          dark
+          @click="loginopen"
+          v-show="!loginshow"
+        >
+          登入
+        </v-btn>
+        <v-btn
+          color="light-green"
+          dark
+          @click="logout"
+          v-show="loginshow"
+        >
+          登出
+        </v-btn>
       </v-app-bar>
       <v-content>
       <v-container
@@ -99,6 +116,7 @@
         </v-card>
       </v-container>
     </v-content>
+    <login ref="logindialog"></login>
     </v-app>
   </div>
 </template>
@@ -111,9 +129,15 @@ export default {
       reload: this.reload
     }
   },
+  components: {
+    'login': resolve => require(['@/login'], resolve)
+  },
   data: () => ({
     drawer: null,
-    isRouterAlive: true
+    isRouterAlive: true,
+    loginshow: localStorage.username,
+    username: localStorage.username,
+    imgUrl: 'static/lilicoco.jpg'
   }),
   methods: {
     reload () {
@@ -121,6 +145,14 @@ export default {
       this.$nextTick(function () {
         this.isRouterAlive = true
       })
+    },
+    loginopen () {
+      this.$refs.logindialog.open()
+    },
+    logout () {
+      localStorage.setItem('username', '')
+      localStorage.setItem('user_token', '')
+      this.$router.go(0)
     }
   }
 }

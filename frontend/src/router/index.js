@@ -31,16 +31,19 @@ export default new Router({
         {
           path: '',
           name: 'misc',
+          meta: { requireAuth: true },
           component: misc
         },
         {
           path: '/item',
           name: 'item',
+          meta: { requireAuth: true },
           component: item
         },
         {
           path: '/ingredient',
           name: 'ingredient',
+          meta: { requireAuth: true },
           component: ingredient
         }
       ]
@@ -48,16 +51,19 @@ export default new Router({
     {
       path: '/inventory',
       name: 'inventory',
+      meta: { requireAuth: true },
       component: inventory
     },
     {
       path: '/employee',
       name: 'employee',
+      meta: { requireAuth: true },
       component: employee
     },
     {
       path: '/coordinate',
       name: 'coordinate',
+      meta: { requireAuth: true },
       component: coordinate
     },
     {
@@ -67,16 +73,19 @@ export default new Router({
         {
           path: '',
           name: 'turnover',
+          meta: { requireAuth: true },
           component: turnover
         },
         {
           path: '/cost',
           name: 'cost',
+          meta: { requireAuth: true },
           component: cost
         },
         {
           path: '/ingredientCost',
           name: 'ingredientCost',
+          meta: { requireAuth: true },
           component: ingredientCost
         }
       ]
