@@ -33,7 +33,7 @@
           scrollable
         >
           <v-btn text color="light-green" @click="menu = false">Cancel</v-btn>
-          <v-btn text color="light-green" @click="$refs.menu.save(startMonth); $router.push({name: 'turnover', query:{startMonth: startMonth}}); reload()">OK</v-btn>
+          <v-btn text color="light-green" @click="$refs.menu.save(startMonth); pushMonth(startMonth, $route.query.monthList[1]); reload()">OK</v-btn>
         </v-date-picker>
       </v-menu>
     </v-col>
@@ -69,7 +69,7 @@
           scrollable
         >
           <v-btn text color="light-green" @click="menu = false">Cancel</v-btn>
-          <v-btn text color="light-green" @click="$refs.menu.save(endMonth); $router.push({name: 'turnover', query:{endMonth: endMonth}}); reload()">OK</v-btn>
+          <v-btn text color="light-green" @click="$refs.menu.save(endMonth); pushMonth($route.query.monthList[0], endMonth); reload()">OK</v-btn>
         </v-date-picker>
       </v-menu>
     </v-col>
@@ -93,6 +93,18 @@ export default {
     isRouterAlive: true
   }),
   methods: {
+    pushMonth (start, end) {
+      if (parseInt(start.replace('-', '')) > parseInt(end.replace('-', ''))) {
+        alert('開始月份不能比結束月份晚!')
+      } else {
+        this.$router.push({
+          name: 'cost',
+          query: {
+            monthList: [start, end]
+          }
+        })
+      }
+    },
     drawDots () {
       var myChart = echarts.init(document.getElementById('cmain'))
       myChart.showLoading({
@@ -211,11 +223,11 @@ export default {
     }
   },
   created () {
-    if (this.$route.query.startMonth !== undefined) {
-      this.startMonth = this.$route.query.startMonth
-    }
-    if (this.$route.query.endMonth !== undefined) {
-      this.endMonth = this.$route.query.endMonth
+    if (this.$route.query.monthList !== undefined) {
+      this.startMonth = this.$route.query.monthList[0]
+      this.endMonth = this.$route.query.monthList[1]
+    } else {
+      this.$router.push({name: 'cost', query: { monthList: [parseInt(new Date().toISOString().substr(0, 4)) - 1 + new Date().toISOString().substr(4, 3), new Date().toISOString().substr(0, 7)] }})
     }
   },
   mounted () {

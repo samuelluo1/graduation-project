@@ -63,17 +63,26 @@ export default {
     },
     async loginClick() {
       await this.$axios
+        .post("/api-token-auth/", {
+          username: this.username,
+          password: this.password
+        }).then(response => {
+          localStorage.setItem("user_token", response.data.token)
+          console.log(response.data.token)
+        })
+      await this.$axios
         .post("/user/login/", {
           username: this.username,
           password: this.password
-        })
+        }, {headers: {'X-CSRFToken': localStorage.getItem('user_token')}})
         .then(response => {
           console.log(response.data)
         })
       await this.$axios
         .post("/login/", {
           username: this.username,
-          password: this.password
+          password: this.password,
+          headers: {'X-CSRFToken': localStorage.getItem('user_token')}
         })
         .then(response => {
           console.log(response.data)

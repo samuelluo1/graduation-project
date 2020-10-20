@@ -1,9 +1,11 @@
+from django.contrib.auth.models import User
 from django.db import models
 import time
 
 
 class Employee(models.Model):
 
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     employee_name = models.CharField(max_length=30)
     employee_id = models.FloatField(max_length=10, default=0)
     employee_time = models.CharField(max_length=10, default=time.strftime("%Y-%m-%d", time.localtime()))
