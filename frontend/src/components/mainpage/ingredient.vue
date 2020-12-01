@@ -159,7 +159,7 @@ export default {
         var container = res_a.data.filter(a => a.ingredient_time === month)
         var $this = this
         function postHave (i, j) {
-          $this.$axios.post('/post_have/', { item: $this.itemIdList[i], ingredient: j.data.id, proportion: 0 })
+          $this.$axios.post('/post_have/', { item: $this.itemIdList[i], ingredient: j.data.id, proportion: '0' })
         }
         for (var i = 0; i < container.length; i++) {
           container[i].ingredient_time = this.date
