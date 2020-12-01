@@ -122,7 +122,7 @@ export default {
         .post('/post_ingredient/', { ingredient_name: '新原料', ingredient_time: this.date })
         .then(res => {
           for (var i = 0; i < this.itemIdList.length; i++) {
-            this.$axios.post('/post_have/', { item: this.itemIdList[i], ingredient: res.data.id })
+            this.$axios.post('/post_have/', { item: this.itemIdList[i], ingredient: res.data.id, proportion: '0' })
           }
           this.reload()
         })
@@ -150,13 +150,14 @@ export default {
         this.$emit('on-custom-comp', params)
         this.$axios.get('/get_have/?ingredient=' + rowData.id + '&item=' + field.substr(5))
           .then(res => {
-            this.$axios.put('/have/' + res.data[0].id + '/', { id: res.data[0].id, proportion: newValue, ingredient: rowData.id, item: field.substr(5), user: this.dataList[rowIndex]['user'] })
+            var haveId = res.data.filter(b => b.item == field.substr(5)).filter(a => a.ingredient === rowData.id)[0].id
+            this.$axios.put('/have/' + haveId + '/', { id: haveId, proportion: newValue, ingredient: rowData.id, item: field.substr(5), user: this.dataList[rowIndex]['user'] })
           })
       }
     },
     addCopy (month) {
       this.$axios.get('/get_ingredient/').then(res_a => {
-        var container = res_a.data.filter(a => a.ingredient_time === month)
+        var container = res_a.datafilter(a => a.ingredient_time === month)
         var $this = this
         function postHave (i, j) {
           $this.$axios.post('/post_have/', { item: $this.itemIdList[i], ingredient: j.data.id, proportion: '0' })
@@ -191,6 +192,7 @@ export default {
           this.headers.push({ title: name + '所占比例', field: 'item_' + itemId, width: 120, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true })
           this.itemIdList.push(itemId)
           for (var j = 0; j < this.dataList.length; j++) {
+            console.log(itemId, this.dataList[j].id)
             this.$set(this.dataList[j], 'item_' + itemId, haveResp.data.filter(a => a.item === itemId).filter(b => b.ingredient === this.dataList[j].id)[0].proportion)
           }
         }
