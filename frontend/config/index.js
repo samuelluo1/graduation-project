@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {                        // 自訂 local 端的位置
-        target: 'http://localhost:8083',  // 遠端 URL Domain
+        target: '//localhost:8085',  // 遠端 URL Domain
         changeOrigin: true,
         pathRewrite: {
           '^/api': '/'
@@ -22,7 +22,7 @@ module.exports = {
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
-    port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
+    port: 8081, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,

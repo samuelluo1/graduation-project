@@ -135,13 +135,15 @@ export default {
       } else {
         this.$emit('on-custom-comp', params)
         this.$axios
-          .put('/put_misc/' + rowData.id + '/', {
+          .put('/misc/' + rowData.id + '/', {
+            id: rowData.id,
             miscellaneous_name: this.dataList[rowIndex]['miscellaneous_name'],
             miscellaneous_price: this.dataList[rowIndex]['miscellaneous_price'],
             service: this.dataList[rowIndex]['service'],
             cooking: this.dataList[rowIndex]['cooking'],
             sorting: this.dataList[rowIndex]['sorting'],
-            miscellaneous_time: this.date
+            miscellaneous_time: this.date,
+            user: this.dataList[rowIndex]['user']
           })
       }
     },

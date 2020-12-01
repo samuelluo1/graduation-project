@@ -69,10 +69,12 @@ export default {
       } else {
         this.$emit('on-custom-comp', params)
         this.$axios
-          .put('/put_inventory/' + rowData.id + '/', {
+          .put('/inventory/' + rowData.id + '/', {
+            id: rowData.id,
             inventory_name: this.dataList[rowIndex]['inventory_name'],
             inventory_quantity: this.dataList[rowIndex]['inventory_quantity'],
-            inventory_unitPrice: this.dataList[rowIndex]['inventory_unitPrice']
+            inventory_unitPrice: this.dataList[rowIndex]['inventory_unitPrice'],
+            user: this.dataList[rowIndex]['user']
           })
       }
     }

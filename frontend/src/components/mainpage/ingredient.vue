@@ -139,16 +139,18 @@ export default {
       } else if (field === 'ingredient_name' | field === 'ingredient_price') {
         this.dataList[rowIndex][field] = newValue
         this.$axios
-          .put('/put_ingredient/' + rowData.id + '/', {
+          .put('/ingredient/' + rowData.id + '/', {
+            id: rowData.id,
             ingredient_name: this.dataList[rowIndex]['ingredient_name'],
             ingredient_price: this.dataList[rowIndex]['ingredient_price'],
-            ingredient_time: this.date
+            ingredient_time: this.date,
+            user: this.dataList[rowIndex]['user']
           })
       } else {
         this.$emit('on-custom-comp', params)
         this.$axios.get('/get_have/?ingredient=' + rowData.id + '&item=' + field.substr(5))
           .then(res => {
-            this.$axios.put('/put_have/' + res.data[0].id + '/', { proportion: newValue, ingredient: rowData.id, item: field.substr(5) })
+            this.$axios.put('/have/' + res.data[0].id + '/', { id: res.data[0].id, proportion: newValue, ingredient: rowData.id, item: field.substr(5), user: this.dataList[rowIndex]['user'] })
           })
       }
     },

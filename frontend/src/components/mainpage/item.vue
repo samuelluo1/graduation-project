@@ -144,12 +144,13 @@ export default {
       } else {
         this.$emit('on-custom-comp', params)
         this.$axios
-          .put('/put_item/' + rowData.id + '/', {
+          .put('/item/' + rowData.id + '/', {
             item_name: this.dataList[rowIndex]['item_name'],
             item_price: this.dataList[rowIndex]['item_price'],
             time: this.dataList[rowIndex]['time'],
             sales: this.dataList[rowIndex]['sales'],
-            item_time: this.date
+            item_time: this.date,
+            user: this.dataList[rowIndex]['user']
           })
       }
     },

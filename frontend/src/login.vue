@@ -62,14 +62,14 @@ export default {
       this.dialogLoginVisible = true;
     },
     async loginClick() {
-      await this.$axios
-        .post("/api-token-auth/", {
-          username: this.username,
-          password: this.password
-        }).then(response => {
-          localStorage.setItem("user_token", response.data.token)
-          console.log(response.data.token)
-        })
+      //await this.$axios
+        //.post("/api-token-auth/", {
+          //username: this.username,
+          //password: this.password
+        //}).then(response => {
+          //localStorage.setItem("user_token", response.data.token)
+          //console.log(response.data.token)
+        //})
       await this.$axios
         .post("/user/login/", {
           username: this.username,
@@ -82,7 +82,7 @@ export default {
         .post("/login/", {
           username: this.username,
           password: this.password,
-          headers: {'X-CSRFToken': localStorage.getItem('user_token')}
+          //headers: {'X-CSRFToken': localStorage.getItem('user_token')}
         })
         .then(response => {
           console.log(response.data)
@@ -90,6 +90,8 @@ export default {
             this.$message.error("密码错误");
             return;
           }
+          this.$cookies.set("user_token",response.data)
+          this.$cookies.set("username", this.username)
           localStorage.setItem("user_token",response.data)
           localStorage.setItem("username", this.username)
           this.dialogLoginVisible = false
@@ -105,7 +107,7 @@ export default {
           }
         })
         .catch(error => {
-          this.$message.error("用户名不存在（" + error + "）");
+          console.log("用户名不存在（" + error + "）");
         });
     }
   }

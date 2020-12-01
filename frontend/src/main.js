@@ -6,6 +6,7 @@ import App from './App'
 import router from './router'
 import axios from 'axios'
 import md5 from 'js-md5'
+import VueCookies from 'vue-cookies'
 
 Vue.config.productionTip = false
 
@@ -14,6 +15,7 @@ axios.defaults.withCredentials = true
 axios.defaults.baseURL = process.env.API_ROOT
 Vue.prototype.$axios = axios
 Vue.prototype.$md5 = md5
+Vue.prototype.$cookies = VueCookies
 
 /* eslint-disable no-new */
 
