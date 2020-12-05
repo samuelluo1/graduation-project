@@ -38,7 +38,7 @@ export default {
         },
         isResize: true
       },
-      { title: '員工姓名', field: 'employee_name', width: 80, titleAlign: 'center', columnAlign: 'center', isResize: true },
+      { title: '員工姓名', field: 'employee_name', width: 80, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
       { title: '0', field: 'nine_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
       { title: '9', field: 'nine_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
       { title: '1', field: 'ten_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
