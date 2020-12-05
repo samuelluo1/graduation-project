@@ -169,19 +169,22 @@ export default {
                 }
                 var operatingCost = 0
                 var timePropor = 0
+                var salesPropor = 0
                 var serviceCount = 0
                 var cookingCount = 0
                 var sortingCount = 0
                 for (var p = 0; p < itemNewData.length; p++) {
                   timePropor = timePropor + itemNewData[p].time
+                  salesPropor = salesPropor + itemNewData[p].sales
                 }
-                timePropor = itemNewData[n].sales / timePropor
+                timePropor = itemNewData[n].time / timePropor
+                salesPropor = itemNewData[n].sales / salesPropor                      
                 for (var q = 0; q < miscNewData.length; q++) {
                   serviceCount = serviceCount + miscNewData[q].miscellaneous_price * miscNewData[q].service * 0.01
-                  serviceCount = serviceCount + miscNewData[q].miscellaneous_price * miscNewData[q].cooking * 0.01
-                  serviceCount = serviceCount + miscNewData[q].miscellaneous_price * miscNewData[q].sorting * 0.01
+                  sortingCount = sortingCount + miscNewData[q].miscellaneous_price * miscNewData[q].cooking * 0.01
+                  sortingCount = sortingCount + miscNewData[q].miscellaneous_price * miscNewData[q].sorting * 0.01
                 }
-                operatingCost = (serviceCount + sortingCount) * timePropor + cookingCount * timePropor
+                operatingCost = serviceCount * timePropor + sortingCount * salesPropor
                 costCount = costCount + materialCost + operatingCost
               }
               container.push(costCount)
