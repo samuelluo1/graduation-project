@@ -98,7 +98,7 @@ export default {
         alert('開始月份不能比結束月份晚!')
       } else {
         this.$router.push({
-          name: 'cost',
+          name: 'turnover',
           query: {
             monthList: [start, end]
           }
@@ -230,7 +230,7 @@ export default {
       this.startMonth = this.$route.query.monthList[0]
       this.endMonth = this.$route.query.monthList[1]
     } else {
-      this.$router.push({name: 'cost', query: { monthList: [parseInt(new Date().toISOString().substr(0, 4)) - 1 + new Date().toISOString().substr(4, 3), new Date().toISOString().substr(0, 7)] }})
+      this.$router.push({name: 'turnover', query: { monthList: [parseInt(new Date().toISOString().substr(0, 4)) - 1 + new Date().toISOString().substr(4, 3), new Date().toISOString().substr(0, 7)] }})
     }
   },
   mounted () {
