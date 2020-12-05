@@ -7,7 +7,7 @@ class Employee(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     employee_name = models.CharField(max_length=30)
-    employee_id = models.FloatField(max_length=10, default=0)
+    employee_id = models.CharField(max_length=10, default='0')
     employee_time = models.CharField(max_length=10, default=time.strftime("%Y-%m-%d", time.localtime()))
     nine_f = models.FloatField(default=0)
     nine_s = models.FloatField(default=0)

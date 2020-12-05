@@ -93,15 +93,14 @@ export default {
       let params = { type: 'edit', index: this.index, rowData: this.rowData }
       if (field === 'employee_name' && newValue.length > 30) {
         alert('名稱太長了!(超過三十字元)')
-      } else if (field !== 'employee_name' && parseFloat(newValue).toString() !== newValue) {
+      } else if (field !== 'employee_name' && /\D/.test(newValue)) {
         alert('僅能輸入數字!')
-      } else if (field !== 'employee_name' && newValue < 0) {
-        alert('不可輸入負號!')
       } else {
         this.$emit('on-custom-comp', params)
         this.$axios
-          .put('/put_employee/' + rowData.id + '/', {
-            employee_id: this.dataList[rowIndex]['emplyee_id'],
+          .put('/employee/' + rowData.id + '/', {
+            id: rowData.id,
+            employee_id: this.dataList[rowIndex]['employee_id'],
             employee_name: this.dataList[rowIndex]['employee_name'],
             nine_f: this.dataList[rowIndex]['nine_f'],
             nine_s: this.dataList[rowIndex]['nine_s'],
@@ -134,7 +133,8 @@ export default {
             twentyThree_f: this.dataList[rowIndex]['twentyThree_f'],
             twentyThree_s: this.dataList[rowIndex]['twentyThree_s'],
             twentyFour_f: this.dataList[rowIndex]['twentyFour_f'],
-            twentyFour_s: this.dataList[rowIndex]['twentyFour_s']
+            twentyFour_s: this.dataList[rowIndex]['twentyFour_s'],
+            user: this.dataList[rowIndex]['user']
           })
       }
       this.reload()
