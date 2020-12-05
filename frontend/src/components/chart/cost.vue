@@ -158,36 +158,17 @@ export default {
           }
           for (var m = 0; m < allMonthData.length; m++) {
             if (monthData.includes(allMonthData[m])) {
-              var itemNewData = itemData.filter(a => a.item_time === allMonthData[m])
               var miscNewData = miscData.filter(a => a.miscellaneous_time === allMonthData[m])
               var ingrNewData = ingrData.filter(a => a.ingredient_time === allMonthData[m])
-              var costCount = 0
-              for (var n = 0; n < itemNewData.length; n++) {
-                var materialCost = 0
-                for (var o = 0; o < ingrNewData.length; o++) {
-                  getMaterialCost(n, o)
-                }
-                var operatingCost = 0
-                var timePropor = 0
-                var salesPropor = 0
-                var serviceCount = 0
-                var cookingCount = 0
-                var sortingCount = 0
-                for (var p = 0; p < itemNewData.length; p++) {
-                  timePropor = timePropor + itemNewData[p].time
-                  salesPropor = salesPropor + itemNewData[p].sales
-                }
-                timePropor = itemNewData[n].time / timePropor
-                salesPropor = itemNewData[n].sales / salesPropor                      
-                for (var q = 0; q < miscNewData.length; q++) {
-                  serviceCount = serviceCount + miscNewData[q].miscellaneous_price * miscNewData[q].service * 0.01
-                  sortingCount = sortingCount + miscNewData[q].miscellaneous_price * miscNewData[q].cooking * 0.01
-                  sortingCount = sortingCount + miscNewData[q].miscellaneous_price * miscNewData[q].sorting * 0.01
-                }
-                operatingCost = serviceCount * timePropor + sortingCount * salesPropor
-                costCount = costCount + materialCost + operatingCost
+              var ingrCostCount = 0
+              var miscCostCount = 0
+              for (var n = 0; n < ingrNewData.length; n++) {
+                ingrCostCount = ingrCostCount + ingrNewData[n].ingredient_price
               }
-              container.push(costCount)
+              for (var o = 0; o < miscNewData.length; o++) {
+                miscCostCount = miscCostCount + miscNewData[o].miscellaneous_price
+              }
+              container.push(ingrCostCount + miscCostCount)
             } else {
               container.push('')
             }
