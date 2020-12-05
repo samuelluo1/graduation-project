@@ -88,7 +88,7 @@ export default {
       this.$axios.post('/post_employee/', { employee_name: '新員工' })
       this.reload()
     },
-    cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
+    async cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
       this.dataList[rowIndex][field] = newValue
       let params = { type: 'edit', index: this.index, rowData: this.rowData }
       if (field === 'employee_name' && newValue.length > 30) {
@@ -97,7 +97,7 @@ export default {
         alert('僅能輸入數字!')
       } else {
         this.$emit('on-custom-comp', params)
-        this.$axios
+        await this.$axios
           .put('/employee/' + rowData.id + '/', {
             id: rowData.id,
             employee_id: this.dataList[rowIndex]['employee_id'],
@@ -137,7 +137,7 @@ export default {
             user: this.dataList[rowIndex]['user']
           })
       }
-      this.reload()
+      await this.reload()
     }
   },
   created () {
