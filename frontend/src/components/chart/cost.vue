@@ -118,7 +118,6 @@ export default {
           var container = []
           var monthData = []
           var allMonthData = []
-          var costCount = 0
           var $this = this
           function getMaterialCost (i, j) {
             $this.$axios.get('/get_have/?ingredient=' + ingrData[j].id + '&item=' + itemData[i].id)
@@ -162,6 +161,7 @@ export default {
               var itemNewData = itemData.filter(a => a.item_time === allMonthData[m])
               var miscNewData = miscData.filter(a => a.miscellaneous_time === allMonthData[m])
               var ingrNewData = ingrData.filter(a => a.ingredient_time === allMonthData[m])
+              var costCount = 0
               for (var n = 0; n < itemNewData.length; n++) {
                 var materialCost = 0
                 for (var o = 0; o < ingrNewData.length; o++) {
