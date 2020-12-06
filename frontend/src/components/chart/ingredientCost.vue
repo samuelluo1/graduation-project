@@ -106,24 +106,25 @@ export default {
         })
       }
     },
-    drawDots () {
+    async drawDots () {
       var myChart = echarts.init(document.getElementById('cmain'))
       myChart.showLoading({
         color: '#8BC34A'
       })
-      this.$axios.all([this.$axios.get('/get_item/'), this.$axios.get('/get_misc/'), this.$axios.get('/get_ingredient/')])
-        .then(this.$axios.spread((itemResp, miscResp, ingrResp) => {
+      await this.$axios.all([this.$axios.get('/get_item/'), this.$axios.get('/get_misc/'), this.$axios.get('/get_ingredient/'), this.$axios.get('/get_have/')])
+        .then(this.$axios.spread((itemResp, miscResp, ingrResp, haveResp) => {
           var itemData = itemResp.data
           var miscData = miscResp.data
           var ingrData = ingrResp.data
+          var haveData = haveResp.data
           var monthData = []
           var costData = {}
           var allMonthData = []
           var $this = this
-          function getMaterialCost (i, j) {
-            $this.$axios.get('/get_have/?ingredient=' + ingrData[j].id + '&item=' + itemData[i].id)
+          async function getMaterialCost (i, j) {
+            await $this.$axios.get('/have/?ingredient=' + ingrNewData[j].id + '&item=' + itemNewData[i].id)
               .then(res => {
-                materialCost = materialCost + res.data[0].proportion * 0.01 * ingrData[j].ingredient_price
+                materialCost = materialCost + res.data[0].proportion * 0.01 * ingrNewData[j].ingredient_price
               })
           }
           allMonthData.push(this.startMonth)
@@ -166,25 +167,30 @@ export default {
               var miscNewData = miscData.filter(a => a.miscellaneous_time === allMonthData[m])
               var ingrNewData = ingrData.filter(a => a.ingredient_time === allMonthData[m])
               for (var n = 0; n < itemNewData.length; n++) {
-                var materialCost = 0
+                let materialCost = 0
                 for (var o = 0; o < ingrNewData.length; o++) {
-                  getMaterialCost(n, o)
+                  materialCost = materialCost + haveData.filter(a => a.item === itemNewData[n].id).filter(b => b.ingredient === ingrNewData[o].id)[0].proportion * 0.01 * ingrNewData[o].ingredient_price
                 }
                 var operatingCost = 0
-                var timePropor = 0
+                var timeTotal = 0
+                var salesTotal = 0
                 var serviceCount = 0
                 var cookingCount = 0
                 var sortingCount = 0
                 for (var p = 0; p < itemNewData.length; p++) {
-                  timePropor = timePropor + itemNewData[p].time
+                  timeTotal = timeTotal + itemNewData[p].time
+                  salesTotal = salesTotal + itemNewData[p].sales
                 }
-                timePropor = itemNewData[n].sales / timePropor
+                var timePropor = itemNewData[n].time / timeTotal
+                var salesPropor = itemNewData[n].sales / salesTotal
                 for (var q = 0; q < miscNewData.length; q++) {
                   serviceCount = serviceCount + miscNewData[q].miscellaneous_price * miscNewData[q].service * 0.01
                   serviceCount = serviceCount + miscNewData[q].miscellaneous_price * miscNewData[q].cooking * 0.01
                   serviceCount = serviceCount + miscNewData[q].miscellaneous_price * miscNewData[q].sorting * 0.01
                 }
-                operatingCost = (serviceCount + sortingCount) * timePropor + cookingCount * timePropor
+                operatingCost = serviceCount * salesPropor + cookingCount * timePropor + sortingCount * timePropor
+                console.log(materialCost)
+                console.log(operatingCost)
                 costData[itemNewData[n].item_name] = materialCost + operatingCost
               };
               Object.entries(this.itemCostData).forEach(([k, v]) => {
@@ -238,8 +244,8 @@ export default {
       this.$router.push({name: 'ingredientCost', query: { monthList: [parseInt(new Date().toISOString().substr(0, 4)) - 1 + new Date().toISOString().substr(4, 3), new Date().toISOString().substr(0, 7)] }})
     }
   },
-  mounted () {
-    this.drawDots()
+  async mounted () {
+    await this.drawDots()
   }
 }
 </script>
