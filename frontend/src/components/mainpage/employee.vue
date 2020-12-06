@@ -1,5 +1,68 @@
 <template>
   <div>
+    <v-row align="baseline" justify="space-around">
+    <v-col md="2" >
+      <v-menu
+        ref="menu"
+        v-model="menu"
+        :close-on-content-click="false"
+        :return-value.sync="date"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            color='light-green'
+            v-model="date"
+            placeholder=" 請選擇年月份"
+            readonly
+            prepend-icon="event"
+            v-bind="attrs"
+            v-on="on"
+            hide-details
+            class="ma-0 pa-0"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          color='light-green'
+          v-model="date"
+          type="month"
+          no-title
+          scrollable
+        >
+          <v-btn text color="light-green" @click="menu = false">Cancel</v-btn>
+          <v-btn text color="light-green" @click="$refs.menu.save(date); $router.push({name: 'employee', query:{date: date}}); reload()">OK</v-btn>
+        </v-date-picker>
+      </v-menu>
+    </v-col>
+    <v-col md="2" >
+    <v-menu
+        offset-y
+      >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="light-green"
+          dark
+          v-bind="attrs"
+          v-on="on"
+        >
+          複製
+        </v-btn>
+      </template>
+      <v-list>
+        <v-list-item
+          v-for="(item, index) in monthData"
+          :key="index"
+          @click="addCopy(item)"
+        >
+          <v-list-item-title>{{ item }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+    </v-col>
+    </v-row>
     <v-card>
       <v-table
         is-horizontal-resize
@@ -9,6 +72,8 @@
         :table-data="dataList"
         row-hover-color="#F1F8E9"
         row-click-color="#F1F8E9"
+        :footer-cell-class-name="setFooterCellClass"
+        :footer="footer"
         :cell-edit-done="cellEditDone"
         @on-custom-comp="customCompFunc"
       ></v-table>
@@ -39,44 +104,32 @@ export default {
         isResize: true
       },
       { title: '員工姓名', field: 'employee_name', width: 80, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '0', field: 'nine_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '9', field: 'nine_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'ten_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '0', field: 'ten_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'eleven_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'eleven_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'twelve_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '2', field: 'twelve_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'thirteen_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '3', field: 'thirteen_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'fourteen_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '4', field: 'fourteen_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'fifteen_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '5', field: 'fifteen_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'sixteen_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '6', field: 'sixteen_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'seventeen_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '7', field: 'seventeen_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'eighteen_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '8', field: 'eighteen_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'nineteen_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '9', field: 'nineteen_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '2', field: 'twenty_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '0', field: 'twenty_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '2', field: 'twentyOne_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '1', field: 'twentyOne_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '2', field: 'twentyTwo_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '2', field: 'twentyTwo_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '2', field: 'twentyThree_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '3', field: 'twentyThree_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '0', field: 'twentyFour_f', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
-      { title: '0', field: 'twentyFour_s', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '09', field: 'nine', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '10', field: 'ten', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '11', field: 'eleven', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '12', field: 'twelve', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '13', field: 'thirteen', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '14', field: 'fourteen', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '15', field: 'fifteen', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '16', field: 'sixteen', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '17', field: 'seventeen', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '18', field: 'eighteen', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '19', field: 'nineteen', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '20', field: 'twenty', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '21', field: 'twentyOne', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '22', field: 'twentyTwo', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '23', field: 'twentyThree', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
+      { title: '00', field: 'twentyFour', width: 20, titleAlign: 'center', columnAlign: 'center', isEdit: true, isResize: true },
       { title: '總時數', field: 'total_hour', width: 80, titleAlign: 'center', columnAlign: 'center', isResize: true },
       { title: '', field: 'actions', width: 60, titleAlign: 'center', columnAlign: 'center', isEdit: false, componentName: 'table-operation', isResize: true }
     ],
     dataList: [],
     isRouterAlive: true,
     tempList: [],
+    footer: [[]],
+    monthData: [],
+    date: new Date().toISOString().substr(0, 7),
+    menu: false
   }),
   methods: {
     customCompFunc (params) {
@@ -85,7 +138,7 @@ export default {
       }
     },
     add () {
-      this.$axios.post('/post_employee/', { employee_name: '新員工' })
+      this.$axios.post('/post_employee/', { employee_name: '新員工', time: this.date })
       this.reload()
     },
     async cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
@@ -102,69 +155,131 @@ export default {
             id: rowData.id,
             employee_id: this.dataList[rowIndex]['employee_id'],
             employee_name: this.dataList[rowIndex]['employee_name'],
-            nine_f: this.dataList[rowIndex]['nine_f'],
-            nine_s: this.dataList[rowIndex]['nine_s'],
-            ten_f: this.dataList[rowIndex]['ten_f'],
-            ten_s: this.dataList[rowIndex]['ten_s'],
-            eleven_f: this.dataList[rowIndex]['eleven_f'],
-            eleven_s: this.dataList[rowIndex]['eleven_s'],
-            twelve_f: this.dataList[rowIndex]['twelve_f'],
-            twelve_s: this.dataList[rowIndex]['twelve_s'],
-            thirteen_f: this.dataList[rowIndex]['thirteen_f'],
-            thirteen_s: this.dataList[rowIndex]['thirteen_s'],
-            fourteen_f: this.dataList[rowIndex]['fourteen_f'],
-            fourteen_s: this.dataList[rowIndex]['fourteen_s'],
-            fifteen_f: this.dataList[rowIndex]['fifteen_f'],
-            fifteen_s: this.dataList[rowIndex]['fifteen_s'],
-            sixteen_f: this.dataList[rowIndex]['sixteen_f'],
-            sixteen_s: this.dataList[rowIndex]['sixteen_s'],
-            seventeen_f: this.dataList[rowIndex]['seventeen_f'],
-            seventeen_s: this.dataList[rowIndex]['seventeen_s'],
-            eighteen_f: this.dataList[rowIndex]['eighteen_f'],
-            eighteen_s: this.dataList[rowIndex]['eighteen_s'],
-            nineteen_f: this.dataList[rowIndex]['nineteen_f'],
-            nineteen_s: this.dataList[rowIndex]['nineteen_s'],
-            twenty_f: this.dataList[rowIndex]['twenty_f'],
-            twenty_s: this.dataList[rowIndex]['twenty_s'],
-            twentyOne_f: this.dataList[rowIndex]['twentyOne_f'],
-            twentyOne_s: this.dataList[rowIndex]['twentyOne_s'],
-            twentyTwo_f: this.dataList[rowIndex]['twentyTwo_f'],
-            twentyTwo_s: this.dataList[rowIndex]['twentyTwo_s'],
-            twentyThree_f: this.dataList[rowIndex]['twentyThree_f'],
-            twentyThree_s: this.dataList[rowIndex]['twentyThree_s'],
-            twentyFour_f: this.dataList[rowIndex]['twentyFour_f'],
-            twentyFour_s: this.dataList[rowIndex]['twentyFour_s'],
-            user: this.dataList[rowIndex]['user']
+            nine: this.dataList[rowIndex]['nine'],
+            ten: this.dataList[rowIndex]['ten'],
+            eleven: this.dataList[rowIndex]['eleven'],
+            twelve: this.dataList[rowIndex]['twelve'],
+            thirteen: this.dataList[rowIndex]['thirteen'],
+            fourteen: this.dataList[rowIndex]['fourteen'],
+            fifteen: this.dataList[rowIndex]['fifteen'],
+            sixteen: this.dataList[rowIndex]['sixteen'],
+            seventeen: this.dataList[rowIndex]['seventeen'],
+            eighteen: this.dataList[rowIndex]['eighteen'],
+            nineteen: this.dataList[rowIndex]['nineteen'],
+            twenty: this.dataList[rowIndex]['twenty'],
+            twentyOne: this.dataList[rowIndex]['twentyOne'],
+            twentyTwo: this.dataList[rowIndex]['twentyTwo'],
+            twentyThree: this.dataList[rowIndex]['twentyThree'],
+            twentyFour: this.dataList[rowIndex]['twentyFour'],
+            user: this.dataList[rowIndex]['user'],
+            time: this.date
           })
       }
       await this.reload()
+    },
+    setFooterCellClass (rowIndex, colIndex, value) {
+      if (colIndex === 1) {
+        return 'footer-cell-class'
+      }
+    },
+    addCopy (month) {
+      this.$axios.get('/get_employee/').then(res => {
+        var container = res.data.filter(a => a.time === month)
+        for (var i = 0; i < container.length; i++) {
+          container[i].time = this.date
+          this.$axios.post('/post_employee/', container[i])
+        }
+        this.reload()
+      })
     }
   },
   created () {
     this.isLoading = true
+    if (this.$route.query.date !== undefined) {
+      this.date = this.$route.query.date
+    }
     this.$axios.get('/get_employee/').then(res => {
-      this.dataList = res.data
+      this.dataList = res.data.filter(a => a.time === this.date)
+      for (var i = 0; i < res.data.length; i++) {
+        if (!this.monthData.includes(res.data[i].time) && res.data[i].time !== this.date && this.monthData.length < 10) {
+          this.monthData.push(res.data[i].time)
+        }
+      }
+      this.footer[0].push('')
+      this.footer[0].push('加總')
+      var nineTemp = 0
+      var tenTemp = 0
+      var elevenTemp = 0
+      var twelveTemp = 0
+      var thirteenTemp = 0
+      var fourteenTemp = 0
+      var fifteenTemp = 0
+      var sixteenTemp = 0
+      var seventeenTemp = 0
+      var eighteenTemp = 0
+      var nineteenTemp = 0
+      var twentyTemp = 0
+      var twentyOneTemp = 0
+      var twentyTwoTemp = 0
+      var twentyThreeTemp = 0
+      var twentyFourTemp = 0
+      var totalTemp = 0
       for (var i = 0; i < this.dataList.length; i++) {
         var temp = 0
-        temp = this.dataList[i]['nine_f'] + this.dataList[i]['nine_s']
-        temp = temp + this.dataList[i]['ten_f'] + this.dataList[i]['ten_s']
-        temp = temp + this.dataList[i]['eleven_f'] + this.dataList[i]['eleven_s']
-        temp = temp + this.dataList[i]['twelve_f'] + this.dataList[i]['twelve_s']
-        temp = temp + this.dataList[i]['thirteen_f'] + this.dataList[i]['thirteen_s']
-        temp = temp + this.dataList[i]['fourteen_f'] + this.dataList[i]['fourteen_s']
-        temp = temp + this.dataList[i]['fifteen_f'] + this.dataList[i]['fifteen_s']
-        temp = temp + this.dataList[i]['sixteen_f'] + this.dataList[i]['sixteen_s']
-        temp = temp + this.dataList[i]['seventeen_f'] + this.dataList[i]['seventeen_s']
-        temp = temp + this.dataList[i]['eighteen_f'] + this.dataList[i]['eighteen_s']
-        temp = temp + this.dataList[i]['nineteen_f'] + this.dataList[i]['nineteen_s']
-        temp = temp + this.dataList[i]['twenty_f'] + this.dataList[i]['twenty_s']
-        temp = temp + this.dataList[i]['twentyOne_f'] + this.dataList[i]['twentyOne_s']
-        temp = temp + this.dataList[i]['twentyTwo_f'] + this.dataList[i]['twentyTwo_s']
-        temp = temp + this.dataList[i]['twentyThree_f'] + this.dataList[i]['twentyThree_s']
-        temp = (temp + this.dataList[i]['twentyFour_f'] + this.dataList[i]['twentyFour_s']) / 2
-        this.tempList.push(temp)
-        this.$set(this.dataList[i], 'total_hour', this.tempList[i])
+        nineTemp = nineTemp + this.dataList[i]['nine']
+        temp = this.dataList[i]['nine']
+        tenTemp = tenTemp + this.dataList[i]['ten']
+        temp = temp + this.dataList[i]['ten']
+        elevenTemp = elevenTemp + this.dataList[i]['eleven']
+        temp = temp + this.dataList[i]['eleven']
+        twelveTemp = twelveTemp + this.dataList[i]['twelve']
+        temp = temp + this.dataList[i]['twelve']
+        thirteenTemp = thirteenTemp + this.dataList[i]['thirteen']
+        temp = temp + this.dataList[i]['thirteen']
+        fourteenTemp = fourteenTemp + this.dataList[i]['fourteen']
+        temp = temp + this.dataList[i]['fourteen']
+        fifteenTemp = fifteenTemp + this.dataList[i]['fifteen']
+        temp = temp + this.dataList[i]['fifteen']
+        sixteenTemp = sixteenTemp + this.dataList[i]['sixteen']
+        temp = temp + this.dataList[i]['sixteen']
+        seventeenTemp = seventeenTemp + this.dataList[i]['seventeen']
+        temp = temp + this.dataList[i]['seventeen']
+        eighteenTemp = eighteenTemp + this.dataList[i]['eighteen']
+        temp = temp + this.dataList[i]['eighteen']
+        nineteenTemp = nineteenTemp + this.dataList[i]['nineteen']
+        temp = temp + this.dataList[i]['nineteen']
+        twentyTemp = twentyTemp + this.dataList[i]['twenty']
+        temp = temp + this.dataList[i]['twenty']
+        twentyOneTemp = twentyOneTemp + this.dataList[i]['twentyOne']
+        temp = temp + this.dataList[i]['twentyOne']
+        twentyTwoTemp = twentyTwoTemp + this.dataList[i]['twentyTwo']
+        temp = temp + this.dataList[i]['twentyTwo']
+        twentyThreeTemp = twentyThreeTemp + this.dataList[i]['twentyThree']
+        temp = temp + this.dataList[i]['twentyThree']
+        twentyFourTemp = twentyFourTemp + this.dataList[i]['twentyFour']
+        temp = temp + this.dataList[i]['twentyFour']
+        this.$set(this.dataList[i], 'total_hour', temp)
+        totalTemp = totalTemp + temp
       }
+      this.footer[0].push(nineTemp)
+      this.footer[0].push(tenTemp)
+      this.footer[0].push(elevenTemp)
+      this.footer[0].push(twelveTemp)
+      this.footer[0].push(thirteenTemp)
+      this.footer[0].push(fourteenTemp)
+      this.footer[0].push(fifteenTemp)
+      this.footer[0].push(sixteenTemp)
+      this.footer[0].push(seventeenTemp)
+      this.footer[0].push(eighteenTemp)
+      this.footer[0].push(nineteenTemp)
+      this.footer[0].push(twentyTemp)
+      this.footer[0].push(twentyOneTemp)
+      this.footer[0].push(twentyTwoTemp)
+      this.footer[0].push(twentyThreeTemp)
+      this.footer[0].push(twentyFourTemp)
+      this.footer[0].push(totalTemp)
+      this.footer[0].push('')
+      
       this.isLoading = false
     })
   }
@@ -191,5 +306,15 @@ Vue.component('table-operation', {
   .cell-edit-color {
     color: #8BC34A;
     font-weight: bold;
+  }
+  .footer-cell-class {
+    background-color: #8BC34A;
+    color: #fff;
+  }
+</style>
+<style>
+  .footer-cell-class {
+    background-color: #8BC34A;
+    color: #fff;
   }
 </style>
