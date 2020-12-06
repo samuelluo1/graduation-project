@@ -1,12 +1,13 @@
 <template>
-  <center>
+  <v-row>
+  <v-col md="6">
     <v-row align="baseline" justify="center">
-    <v-col md="2">
+    <v-col md="6">
       <v-menu
-        ref="menu"
-        v-model="menu"
+        ref="menu1"
+        v-model="menu1"
         :close-on-content-click="false"
-        :return-value.sync="date"
+        :return-value.sync="monthOne"
         transition="scale-transition"
         offset-y
         max-width="290px"
@@ -15,7 +16,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-text-field
             color='light-green'
-            v-model="date"
+            v-model="monthOne"
             placeholder=" 請選擇年月份"
             readonly
             prepend-icon="event"
@@ -27,20 +28,143 @@
         </template>
         <v-date-picker
           color='light-green'
-          v-model="date"
+          v-model="monthOne"
           type="month"
           no-title
           scrollable
         >
-          <v-btn text color="light-green" @click="menu = false">Cancel</v-btn>
-          <v-btn text color="light-green" @click="$refs.menu.save(date); $router.push({name: 'coordinate', query:{date: date}}); reload()">OK</v-btn>
+          <v-btn text color="light-green" @click="menu1 = false">Cancel</v-btn>
+          <v-btn text color="light-green" @click="$refs.menu1.save(monthOne); pushMonth(monthOne, $route.query.monthList[1], $route.query.monthList[2], $route.query.monthList[3]); reload()">OK</v-btn>
         </v-date-picker>
       </v-menu>
     </v-col>
     </v-row>
-    <div id="cmain" :style="{width: '1000px', height: '1000px'}" >
+    <div id="cmain1" :style="{width: '450px', height: '450px'}" >
     </div>
-  </center>
+    <v-row align="baseline" justify="center">
+    <v-col md="6">
+      <v-menu
+        ref="menu2"
+        v-model="menu2"
+        :close-on-content-click="false"
+        :return-value.sync="monthTwo"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            color='light-green'
+            v-model="monthTwo"
+            placeholder=" 請選擇年月份"
+            readonly
+            prepend-icon="event"
+            v-bind="attrs"
+            v-on="on"
+            hide-details
+            class="ma-0 pa-0"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          color='light-green'
+          v-model="monthTwo"
+          type="month"
+          no-title
+          scrollable
+        >
+          <v-btn text color="light-green" @click="menu2 = false">Cancel</v-btn>
+          <v-btn text color="light-green" @click="$refs.menu2.save(monthTwo); pushMonth($route.query.monthList[0], monthTwo, $route.query.monthList[2], $route.query.monthList[3]); reload()">OK</v-btn>
+        </v-date-picker>
+      </v-menu>
+    </v-col>
+    </v-row>
+    <div id="cmain2" :style="{width: '450px', height: '450px'}" >
+    </div>
+  </v-col>
+  <v-col md="6">
+    <v-row align="baseline" justify="center">
+    <v-col md="6">
+      <v-menu
+        ref="menu3"
+        v-model="menu3"
+        :close-on-content-click="false"
+        :return-value.sync="monthThree"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            color='light-green'
+            v-model="monthThree"
+            placeholder=" 請選擇年月份"
+            readonly
+            prepend-icon="event"
+            v-bind="attrs"
+            v-on="on"
+            hide-details
+            class="ma-0 pa-0"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          color='light-green'
+          v-model="monthThree"
+          type="month"
+          no-title
+          scrollable
+        >
+          <v-btn text color="light-green" @click="menu3 = false">Cancel</v-btn>
+          <v-btn text color="light-green" @click="$refs.menu3.save(monthThree); pushMonth($route.query.monthList[0], $route.query.monthList[1], monthThree, $route.query.monthList[3]); reload()">OK</v-btn>
+        </v-date-picker>
+      </v-menu>
+    </v-col>
+    </v-row>
+    <div id="cmain3" :style="{width: '450px', height: '450px'}" >
+    </div>
+    <v-row align="baseline" justify="center">
+    <v-col md="6">
+      <v-menu
+        ref="menu4"
+        v-model="menu4"
+        :close-on-content-click="false"
+        :return-value.sync="monthFour"
+        transition="scale-transition"
+        offset-y
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on, attrs }">
+          <v-text-field
+            color='light-green'
+            v-model="monthFour"
+            placeholder=" 請選擇年月份"
+            readonly
+            prepend-icon="event"
+            v-bind="attrs"
+            v-on="on"
+            hide-details
+            class="ma-0 pa-0"
+          ></v-text-field>
+        </template>
+        <v-date-picker
+          color='light-green'
+          v-model="monthFour"
+          type="month"
+          no-title
+          scrollable
+        >
+          <v-btn text color="light-green" @click="menu4 = false">Cancel</v-btn>
+          <v-btn text color="light-green" @click="$refs.menu4.save(monthFour); pushMonth($route.query.monthList[0], $route.query.monthList[1], $route.query.monthList[2], monthFour); reload()">OK</v-btn>
+        </v-date-picker>
+      </v-menu>
+    </v-col>
+    </v-row>
+    <div id="cmain4" :style="{width: '450px', height: '450px'}" >
+    </div>
+  </v-col>
+  </v-row>
 </template>
 
 <script>
@@ -49,37 +173,46 @@ import echarts from 'echarts'
 export default {
   inject: ['reload'],
   data: () => ({
-    date: new Date().toISOString().substr(0, 7),
-    menu: false
+    monthOne: new Date().toISOString().substr(0, 7),
+    monthTwo: new Date().toISOString().substr(0, 7),
+    monthThree: new Date().toISOString().substr(0, 7),
+    monthFour: new Date().toISOString().substr(0, 7),
+    menu1: false,
+    menu2: false,
+    menu3: false,
+    menu4: false
   }),
   methods: {
-    drawDots () {
-      var myChart = echarts.init(document.getElementById('cmain'))
+    pushMonth (one, two, three, four) {
+      this.$router.push({
+        name: 'coordinate',
+        query: {
+          monthList: [one, two, three, four]
+        }
+      })
+    },
+    drawDots (month, id) {
+      var myChart = echarts.init(document.getElementById(id))
       myChart.showLoading({
         color: '#8BC34A'
       })
-      this.$axios.all([this.$axios.get('/get_item/'), this.$axios.get('/get_misc/'), this.$axios.get('/get_ingredient/')])
-        .then(this.$axios.spread((itemResp, miscResp, ingrResp) => {
-          var itemData = itemResp.data.filter(a => a.item_time === this.date)
-          var miscData = miscResp.data.filter(a => a.miscellaneous_time === this.date)
-          var ingrData = ingrResp.data.filter(a => a.ingredient_time === this.date)
+      this.$axios.all([this.$axios.get('/get_item/'), this.$axios.get('/get_misc/'), this.$axios.get('/get_ingredient/'), this.$axios.get('/get_have/')])
+        .then(this.$axios.spread((itemResp, miscResp, ingrResp, haveResp) => {
+          var itemData = itemResp.data.filter(a => a.item_time === month)
+          var miscData = miscResp.data.filter(a => a.miscellaneous_time === month)
+          var ingrData = ingrResp.data.filter(a => a.ingredient_time === month)
+          var haveData = haveResp.data
           var container = []
           var costData = []
           var turnoverCount = 0
-          var costCount = 0
+          var abcCount = 0
           var turnoverMax = -Infinity
           var abcMax = -Infinity
           var turnoverMin = Infinity
           var abcMin = Infinity
           var $this = this
-          function getMaterialCost (i, j) {
-            $this.$axios.get('/get_have/?ingredient=' + ingrData[j].id + '&item=' + itemData[i].id)
-              .then(res => {
-                materialCost = materialCost + res.data[0].proportion * 0.01 * ingrData[j].ingredient_price
-              })
-          }
           for (var i = 0; i < itemData.length; i++) {
-            var sales = itemData[i].item_price * itemData[i].sales
+            var sales = itemData[i].sales
             turnoverCount = turnoverCount + sales
             if (sales > turnoverMax) {
               turnoverMax = sales
@@ -89,36 +222,46 @@ export default {
             }
             var materialCost = 0
             for (var j = 0; j < ingrData.length; j++) {
-              getMaterialCost(i, j)
+              materialCost = materialCost + haveData.filter(a => a.item === itemData[i].id).filter(b => b.ingredient === ingrData[j].id)[0].proportion * 0.01 * ingrData[j].ingredient_price
+              console.log(materialCost)
             }
             var operatingCost = 0
-            var timePropor = 0
+            var timeTotal = 0
+            var salesTotal = 0
             var serviceCount = 0
             var cookingCount = 0
             var sortingCount = 0
             for (var k = 0; k < itemData.length; k++) {
-              timePropor = timePropor + itemData[k].time
+              timeTotal = timeTotal + itemData[k].time
+              salesTotal = salesTotal + itemData[k].sales
             }
-            timePropor = itemData[i].sales / timePropor
+            var timePropor = itemData[i].time / timeTotal
+            var salesPropor = itemData[i].sales / salesTotal
             for (var l = 0; l < miscData.length; l++) {
               serviceCount = serviceCount + miscData[l].miscellaneous_price * miscData[l].service * 0.01
               serviceCount = serviceCount + miscData[l].miscellaneous_price * miscData[l].cooking * 0.01
               serviceCount = serviceCount + miscData[l].miscellaneous_price * miscData[l].sorting * 0.01
             }
-            operatingCost = (serviceCount + sortingCount) * timePropor + cookingCount * timePropor
-            costData.push(materialCost + operatingCost)
-            costCount = costCount + materialCost + operatingCost
-            if ((sales - materialCost - operatingCost) > abcMax) {
-              abcMax = sales - materialCost - operatingCost
+            operatingCost = serviceCount * salesPropor + cookingCount * timePropor + sortingCount * timePropor
+            costData.push((materialCost + operatingCost) / itemData[i].sales)
+            var tempAbc = itemData[i].item_price - materialCost / itemData[i].sales - operatingCost / itemData[i].sales
+            abcCount = abcCount + tempAbc
+            if (tempAbc > abcMax) {
+              abcMax = tempAbc
             };
-            if ((sales - materialCost - operatingCost) < abcMin) {
-              abcMin = sales - materialCost - operatingCost
+            if (tempAbc < abcMin) {
+              abcMin = tempAbc
             }
+            console.log(materialCost, operatingCost)
+            console.log(abcMax, abcMin)
           };
           for (var m = 0; m < itemData.length; m++) {
-            container.push([(itemData[m].item_price * itemData[m].sales - turnoverCount / itemData.length) / (turnoverMax - turnoverMin),
-              ((itemData[m].item_price * itemData[m].sales - costData[m]) - (turnoverCount - costCount) / itemData.length) / (abcMax - abcMin),
-              itemData[m].item_name])
+            container.push([(itemData[m].sales - turnoverCount / itemData.length) / (turnoverMax - turnoverMin),
+              ((itemData[m].item_price - costData[m]) - abcCount / itemData.length) / (abcMax - abcMin),
+              itemData[m].item_name,
+              '單位成本 : ' + Math.round(costData[m] * 100) / 100 + ' 毛利率 : ' + Math.round((itemData[m].item_price - costData[m]) / abcCount * 100 * 100) / 100  + '%'
+              ])
+            console.log(container)
           };
           myChart.hideLoading()
           myChart.setOption({
@@ -165,8 +308,8 @@ export default {
               emphasis: {
                 label: {
                   show: true,
-                  formatter: function (param) {
-                    return '(' + Math.round(param.data[0] * 10000) / 10000 + ', ' + Math.round(param.data[1] * 10000) / 10000 + ')'
+                  formatter: function (params) {
+                    return params.data[3]
                   },
                   position: 'top'
                 }
@@ -177,12 +320,21 @@ export default {
     }
   },
   created () {
-    if (this.$route.query.date !== undefined) {
-      this.date = this.$route.query.date
+    if (this.$route.query.monthList !== undefined) {
+      this.monthOne = this.$route.query.monthList[0]
+      this.monthTwo = this.$route.query.monthList[1]
+      this.monthThree = this.$route.query.monthList[2]
+      this.monthFour = this.$route.query.monthList[3]
+    } else {
+      var thisMonth = new Date().toISOString().substr(0, 7)
+      this.$router.push({name: 'coordinate', query: { monthList: [thisMonth, thisMonth, thisMonth, thisMonth] }})
     }
   },
-  mounted () {
-    this.drawDots()
+  async mounted () {
+    await this.drawDots(this.monthOne, 'cmain1')
+    await this.drawDots(this.monthTwo, 'cmain2')
+    await this.drawDots(this.monthThree, 'cmain3')
+    await this.drawDots(this.monthFour, 'cmain4')
   }
 }
 </script>

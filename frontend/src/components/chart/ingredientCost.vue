@@ -121,12 +121,6 @@ export default {
           var costData = {}
           var allMonthData = []
           var $this = this
-          async function getMaterialCost (i, j) {
-            await $this.$axios.get('/have/?ingredient=' + ingrNewData[j].id + '&item=' + itemNewData[i].id)
-              .then(res => {
-                materialCost = materialCost + res.data[0].proportion * 0.01 * ingrNewData[j].ingredient_price
-              })
-          }
           allMonthData.push(this.startMonth)
           while (allMonthData[allMonthData.length - 1] !== this.endMonth) {
             if (allMonthData[allMonthData.length - 1].substr(-1, 1) === '9') {
@@ -167,7 +161,7 @@ export default {
               var miscNewData = miscData.filter(a => a.miscellaneous_time === allMonthData[m])
               var ingrNewData = ingrData.filter(a => a.ingredient_time === allMonthData[m])
               for (var n = 0; n < itemNewData.length; n++) {
-                let materialCost = 0
+                var materialCost = 0
                 for (var o = 0; o < ingrNewData.length; o++) {
                   materialCost = materialCost + haveData.filter(a => a.item === itemNewData[n].id).filter(b => b.ingredient === ingrNewData[o].id)[0].proportion * 0.01 * ingrNewData[o].ingredient_price
                 }
@@ -189,8 +183,6 @@ export default {
                   serviceCount = serviceCount + miscNewData[q].miscellaneous_price * miscNewData[q].sorting * 0.01
                 }
                 operatingCost = serviceCount * salesPropor + cookingCount * timePropor + sortingCount * timePropor
-                console.log(materialCost)
-                console.log(operatingCost)
                 costData[itemNewData[n].item_name] = materialCost + operatingCost
               };
               Object.entries(this.itemCostData).forEach(([k, v]) => {
