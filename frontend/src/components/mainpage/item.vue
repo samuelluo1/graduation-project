@@ -47,6 +47,7 @@
           dark
           v-bind="attrs"
           v-on="on"
+          :disabled=btnIsDisabled
         >
           複製
         </v-btn>
@@ -75,7 +76,7 @@
         :cell-edit-done="cellEditDone"
         @on-custom-comp="customCompFunc"
       ></v-table>
-      <v-btn small color='white' @click='add'>
+      <v-btn small color='white' @click='add' :disabled=btnIsDisabled>
         <v-icon>mdi-plus</v-icon>新增品項
       </v-btn>
     </v-card>
@@ -112,7 +113,8 @@ export default {
     isRouterAlive: true,
     date: new Date().toISOString().substr(0, 7),
     menu: false,
-    id: this.$userId
+    id: this.$userId,
+    btnIsDisabled: true
   }),
   methods: {
     customCompFunc (params) {
@@ -120,17 +122,18 @@ export default {
         this.$delete(this.dataList, params.index)
       }
     },
-    add () {
-      this.$axios
+    async add () {
+      this.btnIsDisabled = true
+      await this.$axios
         .post('/post_item/', { item_name: '新品項', item_time: this.date})
         .then(itemRes => {
           this.$axios.get('/get_ingredient/').then(ingredientRes => {
             for (var i = 0; i < ingredientRes.data.length; i++) {
               this.$axios.post('/post_have/', { item: itemRes.data.id, ingredient: ingredientRes.data[i].id })
             }
-            this.reload()
           })
         })
+      await this.reload()
     },
     cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
       this.dataList[rowIndex][field] = newValue
@@ -154,23 +157,24 @@ export default {
           })
       }
     },
-    addCopy (month) {
-      this.$axios.get('get_item').then(res => {
+    async addCopy (month) {
+      this.btnIsDisabled = true
+      await this.$axios.get('get_item').then(res => {
         var container = res.data.filter(a => a.item_time === month)
         for (var i = 0; i < container.length; i++) {
           container[i].item_time = this.date
           this.$axios.post('/post_item/', container[i])
         }
-        this.reload()
       })
+      await this.reload()
     }
   },
-  created () {
+  async created () {
     this.isLoading = true
     if (this.$route.query.date !== undefined) {
       this.date = this.$route.query.date
     }
-    this.$axios.get('/get_item/').then(res => {
+    await this.$axios.get('/get_item/').then(res => {
       console.log(res.data)
       this.dataList = res.data.filter(a => a.item_time === this.date)
       for (var i = 0; i < res.data.length; i++) {
@@ -178,8 +182,9 @@ export default {
           this.monthData.push(res.data[i].item_time)
         }
       }
-      this.isLoading = false
     })
+    this.btnIsDisabled = false
+    this.isLoading = false
   }
 }
 

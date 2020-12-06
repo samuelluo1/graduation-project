@@ -47,6 +47,7 @@
           dark
           v-bind="attrs"
           v-on="on"
+          :disabled=btnIsDisabled
         >
           複製
         </v-btn>
@@ -75,7 +76,7 @@
         :cell-edit-done="cellEditDone"
         @on-custom-comp="customCompFunc"
       ></v-table>
-      <v-btn small color='white' @click='add'>
+      <v-btn small color='white' @click='add' :disabled=btnIsDisabled>
         <v-icon>mdi-plus</v-icon>新增雜項
       </v-btn>
     </v-card>
@@ -111,7 +112,8 @@ export default {
     monthData: [],
     isRouterAlive: true,
     date: new Date().toISOString().substr(0, 7),
-    menu: false
+    menu: false,
+    btnIsDisabled: true
   }),
   methods: {
     customCompFunc (params) {
@@ -119,9 +121,10 @@ export default {
         this.$delete(this.dataList, params.index)
       }
     },
-    add () {
-      this.$axios.post('/post_misc/', { miscellaneous_name: '新雜項', miscellaneous_time: this.date })
-      this.reload()
+    async add () {
+      this.btnIsDisabled = true
+      await this.$axios.post('/post_misc/', { miscellaneous_name: '新雜項', miscellaneous_time: this.date })
+      await this.reload()
     },
     cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
       this.dataList[rowIndex][field] = newValue
@@ -147,31 +150,33 @@ export default {
           })
       }
     },
-    addCopy (month) {
-      this.$axios.get('/get_misc/').then(res => {
+    async addCopy (month) {
+      this.btnIsDisabled = true
+      await this.$axios.get('/get_misc/').then(res => {
         var container = res.data.filter(a => a.miscellaneous_time === month)
         for (var i = 0; i < container.length; i++) {
           container[i].miscellaneous_time = this.date
           this.$axios.post('/post_misc/', container[i])
         }
-        this.reload()
       })
+      await this.reload()
     }
   },
-  created () {
+  async created () {
     this.isLoading = true
     if (this.$route.query.date !== undefined) {
       this.date = this.$route.query.date
     }
-    this.$axios.get('/get_misc/').then(res => {
+    await this.$axios.get('/get_misc/').then(res => {
       this.dataList = res.data.filter(a => a.miscellaneous_time === this.date)
       for (var i = 0; i < res.data.length; i++) {
         if (!this.monthData.includes(res.data[i].miscellaneous_time) && res.data[i].miscellaneous_time !== this.date && this.monthData.length < 10) {
           this.monthData.push(res.data[i].miscellaneous_time)
         }
       }
-      this.isLoading = false
     })
+    this.btnIsDisabled = false
+    this.isLoading = false
   }
 }
 Vue.component('table-operation', {

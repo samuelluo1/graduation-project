@@ -47,6 +47,7 @@
           dark
           v-bind="attrs"
           v-on="on"
+          :disabled=btnIsDisabled
         >
           複製
         </v-btn>
@@ -75,7 +76,7 @@
         :cell-edit-done="cellEditDone"
         @on-custom-comp="customCompFunc"
       ></v-table>
-      <v-btn small color='white' @click='add'>
+      <v-btn small color='white' @click='add' :disabled=btnIsDisabled>
         <v-icon>mdi-plus</v-icon>新增原料
       </v-btn>
     </v-card>
@@ -109,7 +110,8 @@ export default {
     itemLength: '',
     isRouterAlive: true,
     date: new Date().toISOString().substr(0, 7),
-    menu: false
+    menu: false,
+    btnIsDisabled: true
   }),
   methods: {
     customCompFunc (params) {
@@ -117,15 +119,16 @@ export default {
         this.$delete(this.dataList, params.index)
       }
     },
-    add () {
-      this.$axios
+    async add () {
+      this.btnIsDisabled = true
+      await this.$axios
         .post('/post_ingredient/', { ingredient_name: '新原料', ingredient_time: this.date })
         .then(res => {
           for (var i = 0; i < this.itemIdList.length; i++) {
             this.$axios.post('/post_have/', { item: this.itemIdList[i], ingredient: res.data.id, proportion: '0' })
           }
-          this.reload()
         })
+      await this.reload()
     },
     cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
       this.dataList[rowIndex][field] = newValue
@@ -155,8 +158,9 @@ export default {
           })
       }
     },
-    addCopy (month) {
-      this.$axios.get('/get_ingredient/').then(res_a => {
+    async addCopy (month) {
+      this.btnIsDisabled = true
+      await this.$axios.get('/get_ingredient/').then(res_a => {
         var container = res_a.datafilter(a => a.ingredient_time === month)
         var $this = this
         function postHave (i, j) {
@@ -172,16 +176,16 @@ export default {
               }
             })
         }
-        this.reload()
       })
+      await this.reload()
     }
   },
-  created () {
+  async created () {
     this.isLoading = true
     if (this.$route.query.date !== undefined) {
       this.date = this.$route.query.date
     }
-    this.$axios.all([this.$axios.get('/get_ingredient/'), this.$axios.get('/get_item/'), this.$axios.get('/get_have/')])
+    await this.$axios.all([this.$axios.get('/get_ingredient/'), this.$axios.get('/get_item/'), this.$axios.get('/get_have/')])
       .then(this.$axios.spread((ingrResp, itemResp, haveResp) => {
         this.dataList = ingrResp.data.filter(a => a.ingredient_time === this.date)
         var itemData = itemResp.data.filter(a => a.item_time === this.date)
@@ -202,8 +206,9 @@ export default {
             this.monthData.push(ingrResp.data[k].ingredient_time)
           }
         }
-        this.isLoading = false
       }))
+    this.btnIsDisabled = false
+    this.isLoading = false
   }
 }
 Vue.component('table-operation', {

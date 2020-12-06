@@ -12,7 +12,7 @@
         :cell-edit-done="cellEditDone"
         @on-custom-comp="customCompFunc"
       ></v-table>
-      <v-btn small color='white' @click='add'>
+      <v-btn small color='white' @click='add' :disabled=btnIsDisabled>
         <v-icon>mdi-plus</v-icon>新增存貨項目
       </v-btn>
     </v-card>
@@ -45,7 +45,8 @@ export default {
       { title: '', field: 'actions', width: 100, titleAlign: 'center', columnAlign: 'center', isEdit: false, componentName: 'table-operation', isResize: true }
     ],
     dataList: [],
-    isRouterAlive: true
+    isRouterAlive: true,
+    btnIsDisabled: true
   }),
   methods: {
     customCompFunc (params) {
@@ -53,11 +54,12 @@ export default {
         this.$delete(this.dataList, params.index)
       }
     },
-    add () {
-      this.$axios.post('/post_inventory/', { inventory_name: '新存貨項目' })
-      this.reload()
+    async add () {
+      this.btnIsDisabled = true
+      await this.$axios.post('/post_inventory/', { inventory_name: '新存貨項目' })
+      await this.reload()
     },
-    cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
+    async cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
       this.dataList[rowIndex][field] = newValue
       let params = { type: 'edit', index: this.index, rowData: this.rowData }
       if (field === 'inventory_name' && newValue.length > 30) {
@@ -68,7 +70,7 @@ export default {
         alert('不可輸入負號!')
       } else {
         this.$emit('on-custom-comp', params)
-        this.$axios
+        await this.$axios
           .put('/inventory/' + rowData.id + '/', {
             id: rowData.id,
             inventory_name: this.dataList[rowIndex]['inventory_name'],
@@ -77,17 +79,19 @@ export default {
             user: this.dataList[rowIndex]['user']
           })
       }
+      await this.reload()
     }
   },
-  created () {
+  async created () {
     this.isLoading = true
-    this.$axios.get('/get_inventory/').then(res => {
+    await this.$axios.get('/get_inventory/').then(res => {
       this.dataList = res.data
       for (var i = 0; i < this.dataList.length; i++) {
         this.$set(this.dataList[i], 'inventory_price', this.dataList[i]['inventory_quantity'] * this.dataList[i]['inventory_unitPrice'])
       }
-      this.isLoading = false
     })
+    this.btnIsDisabled = false
+    this.isLoading = false
   }
 }
 Vue.component('table-operation', {

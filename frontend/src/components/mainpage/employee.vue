@@ -47,6 +47,7 @@
           dark
           v-bind="attrs"
           v-on="on"
+          :disabled=btnIsDisabled
         >
           複製
         </v-btn>
@@ -77,7 +78,7 @@
         :cell-edit-done="cellEditDone"
         @on-custom-comp="customCompFunc"
       ></v-table>
-      <v-btn small color='white' @click='add'>
+      <v-btn small color='white' @click='add' :disabled=btnIsDisabled>
         <v-icon>mdi-plus</v-icon>新增員工
       </v-btn>
     </v-card>
@@ -129,7 +130,8 @@ export default {
     footer: [[]],
     monthData: [],
     date: new Date().toISOString().substr(0, 7),
-    menu: false
+    menu: false,
+    btnIsDisabled: true
   }),
   methods: {
     customCompFunc (params) {
@@ -137,9 +139,10 @@ export default {
         this.$delete(this.dataList, params.index)
       }
     },
-    add () {
-      this.$axios.post('/post_employee/', { employee_name: '新員工', time: this.date })
-      this.reload()
+    async add () {
+      this.btnIsDisabled = true
+      await this.$axios.post('/post_employee/', { employee_name: '新員工', time: this.date })
+      await this.reload()
     },
     async cellEditDone (newValue, oldValue, rowIndex, rowData, field) {
       this.dataList[rowIndex][field] = newValue
@@ -182,23 +185,24 @@ export default {
         return 'footer-cell-class'
       }
     },
-    addCopy (month) {
-      this.$axios.get('/get_employee/').then(res => {
+    async addCopy (month) {
+      this.btnIsDisabled = true
+      await this.$axios.get('/get_employee/').then(res => {
         var container = res.data.filter(a => a.time === month)
         for (var i = 0; i < container.length; i++) {
           container[i].time = this.date
           this.$axios.post('/post_employee/', container[i])
         }
-        this.reload()
       })
+      await this.reload()
     }
   },
-  created () {
+  async created () {
     this.isLoading = true
     if (this.$route.query.date !== undefined) {
       this.date = this.$route.query.date
     }
-    this.$axios.get('/get_employee/').then(res => {
+    await this.$axios.get('/get_employee/').then(res => {
       this.dataList = res.data.filter(a => a.time === this.date)
       for (var i = 0; i < res.data.length; i++) {
         if (!this.monthData.includes(res.data[i].time) && res.data[i].time !== this.date && this.monthData.length < 10) {
@@ -280,6 +284,7 @@ export default {
       this.footer[0].push(totalTemp)
       this.footer[0].push('')
       
+      this.btnIsDisabled = false
       this.isLoading = false
     })
   }
