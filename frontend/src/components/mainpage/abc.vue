@@ -11,7 +11,7 @@
         原物料
       </v-tab>
       <v-tab-item id="/misc">
-        <router-view v-if="activeTab === '/misc' &&  isRouterAlive" />
+        <router-view v-if="activeTab === '/misc' && isRouterAlive" />
       </v-tab-item>
       <v-tab-item id="/item">
         <router-view v-if="activeTab === '/item' && isRouterAlive" />

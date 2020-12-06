@@ -47,6 +47,7 @@
 import echarts from 'echarts'
 
 export default {
+  inject: ['reload'],
   data: () => ({
     date: new Date().toISOString().substr(0, 7),
     menu: false
