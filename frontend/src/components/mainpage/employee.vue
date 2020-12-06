@@ -28,7 +28,7 @@
         <v-date-picker
           color='light-green'
           v-model="date"
-          type="month"
+          type="date"
           no-title
           scrollable
         >
@@ -54,7 +54,7 @@
       </template>
       <v-list>
         <v-list-item
-          v-for="(item, index) in monthData"
+          v-for="(item, index) in dateData"
           :key="index"
           @click="addCopy(item)"
         >
@@ -128,8 +128,8 @@ export default {
     isRouterAlive: true,
     tempList: [],
     footer: [[]],
-    monthData: [],
-    date: new Date().toISOString().substr(0, 7),
+    dateData: [],
+    date: new Date().toISOString().substr(0, 10),
     menu: false,
     btnIsDisabled: true
   }),
@@ -185,10 +185,10 @@ export default {
         return 'footer-cell-class'
       }
     },
-    async addCopy (month) {
+    async addCopy (day) {
       this.btnIsDisabled = true
       await this.$axios.get('/get_employee/').then(res => {
-        var container = res.data.filter(a => a.time === month)
+        var container = res.data.filter(a => a.time === day)
         for (var i = 0; i < container.length; i++) {
           container[i].time = this.date
           this.$axios.post('/post_employee/', container[i])
@@ -205,8 +205,8 @@ export default {
     await this.$axios.get('/get_employee/').then(res => {
       this.dataList = res.data.filter(a => a.time === this.date)
       for (var i = 0; i < res.data.length; i++) {
-        if (!this.monthData.includes(res.data[i].time) && res.data[i].time !== this.date && this.monthData.length < 10) {
-          this.monthData.push(res.data[i].time)
+        if (!this.dateData.includes(res.data[i].time) && res.data[i].time !== this.date && this.dateData.length < 10) {
+          this.dateData.push(res.data[i].time)
         }
       }
       this.footer[0].push('')

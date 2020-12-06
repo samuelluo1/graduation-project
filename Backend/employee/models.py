@@ -25,7 +25,7 @@ class Employee(models.Model):
     twentyTwo = models.FloatField(default=0)
     twentyThree = models.FloatField(default=0)
     twentyFour = models.FloatField(default=0)
-    time = models.CharField(max_length=7)
+    time = models.CharField(max_length=10, default=time.strftime("%Y-%m-%d", time.localtime()))
 
     objects = models.Manager()
 
